@@ -8,7 +8,7 @@ title: DNS-based service discovery for Mesos
     DNS-based service discovery for Mesos
   </p>
   <p>
-    <a href="https://rpm.aventer.biz/CentOS/7/x86_64/">
+    <a href="https://rpm.aventer.biz/CentOS/7/x86_64/"
         class="btn btn-lg btn-primary">
       Download Mesos-DNS v0.7.0 RC2
     </a>
