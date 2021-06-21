@@ -1,3 +1,7 @@
+2021-06-21: v0.8.0
+  New Features:
+    Generate additional Slave SRV records if DiscoveryInfo port name is specified
+    
 2019-05-10: v0.7.0
   New Features:
     IPv6 is now supported.

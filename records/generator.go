@@ -489,6 +489,10 @@ func (rg *RecordGenerator) taskContextRecord(ctx context, task state.Task, f sta
 		target := canonical + tail + ":" + strconv.Itoa(port.Number)
 		recordName(withProtocol(port.Protocol, fname, spec,
 			withNamedPort(port.Name, spec, asSRV(target))))
+
+		slaveTarget := slaveHost + ":" + strconv.Itoa(port.Number)
+		recordName(withProtocol(port.Protocol, fname+".slave", spec,
+			withNamedPort(port.Name, spec, asSRV(slaveTarget))))
 	}
 }
 
