@@ -6,15 +6,17 @@ title: Getting Support for Mesos-DNS
 
 # Support for Mesos-DNS
 
-Mesos-DNS is under constant development by the team at [Mesosphere](http://www.mesosphere.com). The team keeps an eye on issues and questions in a few places.
+Mesos-DNS is officially under development by the team at [Mesosphere](http://www.mesosphere.com). Since mesosphere stoped to support DC/OS, [AVENTER UG (haftungsbeschraenkt)](htts://www.aventer.biz) forked Mesos-DNS 
+to ensure the future development. The team keeps an eye on issues and questions in a few places.
 
 ## Mesos-DNS Github Repository
 
 You can report issues and bugs at the [Mesos-DNS Github repository](https://github.com/AVENTER-UG/mesos-dns).
 
-## Mailing list
+## Contact
 
-For any discussion that isn't well suited for Github [issues](https://github.com/AVENTER-UG/mesos-dns/issues), please use our [mailing list](https://groups.google.com/forum/#!forum/mesos-dns).
+For any discussion that isn't well suited for Github [issues](https://github.com/AVNETER-UG/mesos-dns/issues),
+please use our public [chat room](https://matrix.to/#/#mesosdns:matrix.aventer.biz?via=matrix.aventer.biz)
 
 ## Mesos Community
 

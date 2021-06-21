@@ -131,6 +131,11 @@ curl http://127.0.0.1:8123/v1/enumerate
               "name": "_nginx._nginx._tcp.marathon.mesos.",
               "host": "nginx-jhy6r-s1.marathon.mesos.:7564",
               "rtype": "SRV"
+            },
+            {
+              "name": "_nginx._nginx._tcp.marathon.slave.mesos.",
+              "host": "nginx-jhy6r-s1.marathon.slave.mesos.:7564",
+              "rtype": "SRV"
             }
           ]
         }

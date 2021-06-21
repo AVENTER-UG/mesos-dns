@@ -1,5 +1,5 @@
 Name:           mesos-dns
-Version:        v0.7.0
+Version:        v0.8.0
 Release:        rc2%{?dist}
 Summary:        DNS Based service discovery for mesos
 Group:          System Environment/Daemons
@@ -18,7 +18,9 @@ DNS Based service discovery for mesos
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/usr/bin/
 mkdir -p $RPM_BUILD_ROOT/etc/mesos-dns/
-cp -p ~/rpmbuild/SOURCES/mesos-dns $RPM_BUILD_ROOT/usr/bin/
+cd /root/mesos-dns/build
+go build -o $RPM_BUILD_ROOT/usr/bin/mesos-dns ..
+chmod +x $RPM_BUILD_ROOT/usr/bin/mesos-dns
 
 %files
 /usr/bin/mesos-dns
