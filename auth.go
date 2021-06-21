@@ -1,8 +1,8 @@
 package main
 
 import (
-	"github.com/mesosphere/mesos-dns/httpcli/basic"
-	"github.com/mesosphere/mesos-dns/httpcli/iam"
+	"github.com/AVENTER-UG/mesos-dns/httpcli/basic"
+	"github.com/AVENTER-UG/mesos-dns/httpcli/iam"
 )
 
 // initAuth registers HTTP client factories for supported authentication types

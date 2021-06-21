@@ -10,11 +10,11 @@ Mesos-DNS is under constant development by the team at [Mesosphere](http://www.m
 
 ## Mesos-DNS Github Repository
 
-You can report issues and bugs at the [Mesos-DNS Github repository](https://github.com/mesosphere/mesos-dns).
+You can report issues and bugs at the [Mesos-DNS Github repository](https://github.com/AVENTER-UG/mesos-dns).
 
 ## Mailing list
 
-For any discussion that isn't well suited for Github [issues](https://github.com/mesosphere/mesos-dns/issues), please use our [mailing list](https://groups.google.com/forum/#!forum/mesos-dns).
+For any discussion that isn't well suited for Github [issues](https://github.com/AVENTER-UG/mesos-dns/issues), please use our [mailing list](https://groups.google.com/forum/#!forum/mesos-dns).
 
 ## Mesos Community
 

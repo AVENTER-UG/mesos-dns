@@ -6,7 +6,7 @@ import (
 	"net/url"
 	"os"
 
-	"github.com/mesosphere/mesos-dns/errorutil"
+	"github.com/AVENTER-UG/mesos-dns/errorutil"
 )
 
 // LoadFromFile reads an IAM Config from a file (JSON format) on the local filesystem.

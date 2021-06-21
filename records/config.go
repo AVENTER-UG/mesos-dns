@@ -12,11 +12,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mesosphere/mesos-dns/errorutil"
-	"github.com/mesosphere/mesos-dns/httpcli"
-	"github.com/mesosphere/mesos-dns/httpcli/basic"
-	"github.com/mesosphere/mesos-dns/httpcli/iam"
-	"github.com/mesosphere/mesos-dns/logging"
+	"github.com/AVENTER-UG/mesos-dns/errorutil"
+	"github.com/AVENTER-UG/mesos-dns/httpcli"
+	"github.com/AVENTER-UG/mesos-dns/httpcli/basic"
+	"github.com/AVENTER-UG/mesos-dns/httpcli/iam"
+	"github.com/AVENTER-UG/mesos-dns/logging"
 	"github.com/miekg/dns"
 )
 

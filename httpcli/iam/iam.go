@@ -8,8 +8,8 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/mesosphere/mesos-dns/errorutil"
-	"github.com/mesosphere/mesos-dns/httpcli"
+	"github.com/AVENTER-UG/mesos-dns/errorutil"
+	"github.com/AVENTER-UG/mesos-dns/httpcli"
 )
 
 // Register registers a DoerFactory for IAM (JWT-based) authentication

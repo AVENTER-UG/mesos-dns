@@ -4,7 +4,7 @@ set -e
 
 # environment
 export PATH="${PATH}:${GOPATH}/bin"
-readonly PROJECT_DIR="${GOPATH}/src/github.com/mesosphere/mesos-dns"
+readonly PROJECT_DIR="${GOPATH}/src/github.com/AVENTER-UG/mesos-dns"
 readonly ARTIFACT_DIR="${WORKSPACE}/target"
 readonly TEST_REPORTS="${WORKSPACE}/test_results"
 export GO15VENDOREXPERIMENT=1

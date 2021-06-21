@@ -8,7 +8,7 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/mesosphere/mesos-dns/urls"
+	"github.com/AVENTER-UG/mesos-dns/urls"
 )
 
 // ErrAuthFailed is returned for any type of IAM authentication failure

@@ -3,7 +3,7 @@ package iam
 import (
 	"errors"
 
-	"github.com/mesosphere/mesos-dns/httpcli"
+	"github.com/AVENTER-UG/mesos-dns/httpcli"
 )
 
 // ErrInvalidConfiguration generated when Config has missing or invalid data

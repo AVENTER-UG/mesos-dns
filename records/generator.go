@@ -12,13 +12,13 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mesosphere/mesos-dns/httpcli"
-	"github.com/mesosphere/mesos-dns/logging"
-	"github.com/mesosphere/mesos-dns/models"
-	"github.com/mesosphere/mesos-dns/records/labels"
-	"github.com/mesosphere/mesos-dns/records/state"
-	"github.com/mesosphere/mesos-dns/records/state/client"
-	"github.com/mesosphere/mesos-dns/urls"
+	"github.com/AVENTER-UG/mesos-dns/httpcli"
+	"github.com/AVENTER-UG/mesos-dns/logging"
+	"github.com/AVENTER-UG/mesos-dns/models"
+	"github.com/AVENTER-UG/mesos-dns/records/labels"
+	"github.com/AVENTER-UG/mesos-dns/records/state"
+	"github.com/AVENTER-UG/mesos-dns/records/state/client"
+	"github.com/AVENTER-UG/mesos-dns/urls"
 	"github.com/tv42/zbase32"
 )
 
@@ -447,7 +447,7 @@ func (rg *RecordGenerator) taskContextRecord(ctx context, task state.Task, f sta
 		} else {
 			// ack: slave IP may not be an actual IP if labels.DomainFrag was used.
 			// Does labels.DomainFrag produce a valid A record value?
-			// Issue to track: https://github.com/mesosphere/mesos-dns/issues/509
+			// Issue to track: https://github.com/AVENTER-UG/mesos-dns/issues/509
 			rg.insertTaskRR(arec+".slave"+tail, sIPStr, A, enumTask)
 			rg.insertTaskRR(canonical+".slave"+tail, sIPStr, A, enumTask)
 		}

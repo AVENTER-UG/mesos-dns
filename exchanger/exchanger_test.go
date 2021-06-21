@@ -7,7 +7,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mesosphere/mesos-dns/logging"
+	"github.com/AVENTER-UG/mesos-dns/logging"
 	"github.com/miekg/dns"
 )
 

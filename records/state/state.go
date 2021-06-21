@@ -6,8 +6,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/mesosphere/mesos-dns/logging"
-	"github.com/mesosphere/mesos-dns/records/state/upid"
+	"github.com/AVENTER-UG/mesos-dns/logging"
+	"github.com/AVENTER-UG/mesos-dns/records/state/upid"
 )
 
 // Resources holds resources as defined in the /state Mesos HTTP endpoint.

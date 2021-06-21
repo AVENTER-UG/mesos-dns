@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/mesosphere/mesos-dns/httpcli"
+	"github.com/AVENTER-UG/mesos-dns/httpcli"
 )
 
 // Register registers a DoerFactory for HTTP Basic authentication

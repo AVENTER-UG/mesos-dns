@@ -20,7 +20,7 @@ Lists in JSON format the Mesos-DNS version and source code URL.
 $ curl http://10.190.238.173:8123/v1/version
 {
   "Service":"Mesos-DNS",
-  "URL":"https://github.com/mesosphere/mesos-dns","Version":"0.1.1"
+  "URL":"https://github.com/AVENTER-UG/mesos-dns","Version":"0.1.1"
 }
 ```
 

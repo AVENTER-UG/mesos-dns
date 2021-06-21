@@ -3,9 +3,9 @@ package httpcli_test
 import (
 	"testing"
 
-	. "github.com/mesosphere/mesos-dns/httpcli"
-	"github.com/mesosphere/mesos-dns/httpcli/basic"
-	"github.com/mesosphere/mesos-dns/httpcli/iam"
+	. "github.com/AVENTER-UG/mesos-dns/httpcli"
+	"github.com/AVENTER-UG/mesos-dns/httpcli/basic"
+	"github.com/AVENTER-UG/mesos-dns/httpcli/iam"
 )
 
 func TestValidate(t *testing.T) {

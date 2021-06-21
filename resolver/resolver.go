@@ -16,11 +16,11 @@ import (
 
 	restful "github.com/emicklei/go-restful"
 	_ "github.com/mesos/mesos-go/detector/zoo" // Registers the ZK detector
-	"github.com/mesosphere/mesos-dns/exchanger"
-	"github.com/mesosphere/mesos-dns/logging"
-	"github.com/mesosphere/mesos-dns/models"
-	"github.com/mesosphere/mesos-dns/records"
-	"github.com/mesosphere/mesos-dns/util"
+	"github.com/AVENTER-UG/mesos-dns/exchanger"
+	"github.com/AVENTER-UG/mesos-dns/logging"
+	"github.com/AVENTER-UG/mesos-dns/models"
+	"github.com/AVENTER-UG/mesos-dns/records"
+	"github.com/AVENTER-UG/mesos-dns/util"
 	"github.com/miekg/dns"
 )
 
@@ -493,7 +493,7 @@ func (res *Resolver) handleEmpty(rs *records.RecordGenerator, name string, m, r 
 // reply writes the given dns.Msg out to the given dns.ResponseWriter,
 // compressing the message first and truncating it accordingly.
 func reply(w dns.ResponseWriter, m *dns.Msg, setTruncateBit bool) {
-	m.Compress = true // https://github.com/mesosphere/mesos-dns/issues/{170,173,174}
+	m.Compress = true // https://github.com/AVENTER-UG/mesos-dns/issues/{170,173,174}
 	maxsize := maxMsgSize(isUDP(w), m.IsEdns0())
 	truncate(m, maxsize, setTruncateBit)
 	if err := w.WriteMsg(m); err != nil {
@@ -666,7 +666,7 @@ func (res *Resolver) RestVersion(req *restful.Request, resp *restful.Response) {
 	err := resp.WriteAsJson(map[string]string{
 		"Service": "Mesos-DNS",
 		"Version": res.version,
-		"URL":     "https://github.com/mesosphere/mesos-dns",
+		"URL":     "https://github.com/AVENTER-UG/mesos-dns",
 	})
 	if err != nil {
 		logging.Error.Println(err)
