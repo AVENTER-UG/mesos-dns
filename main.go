@@ -7,12 +7,12 @@ import (
 	"os"
 	"time"
 
-	"github.com/mesos/mesos-go/detector"
 	"github.com/AVENTER-UG/mesos-dns/detect"
 	"github.com/AVENTER-UG/mesos-dns/logging"
 	"github.com/AVENTER-UG/mesos-dns/records"
 	"github.com/AVENTER-UG/mesos-dns/resolver"
 	"github.com/AVENTER-UG/mesos-dns/util"
+	"github.com/mesos/mesos-go/api/v0/detector"
 )
 
 func main() {

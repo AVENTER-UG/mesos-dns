@@ -14,13 +14,13 @@ import (
 	"sync/atomic"
 	"time"
 
-	restful "github.com/emicklei/go-restful"
-	_ "github.com/mesos/mesos-go/detector/zoo" // Registers the ZK detector
 	"github.com/AVENTER-UG/mesos-dns/exchanger"
 	"github.com/AVENTER-UG/mesos-dns/logging"
 	"github.com/AVENTER-UG/mesos-dns/models"
 	"github.com/AVENTER-UG/mesos-dns/records"
 	"github.com/AVENTER-UG/mesos-dns/util"
+	restful "github.com/emicklei/go-restful"
+	_ "github.com/mesos/mesos-go/api/v0/detector/zoo" // Registers the ZK detector
 	"github.com/miekg/dns"
 )
 

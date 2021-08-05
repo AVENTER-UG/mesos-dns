@@ -5,8 +5,8 @@ import (
 	"reflect"
 	"testing"
 
-	mesos "github.com/mesos/mesos-go/mesosproto"
 	"github.com/AVENTER-UG/mesos-dns/logging"
+	mesos "github.com/mesos/mesos-go/api/v0/mesosproto"
 )
 
 func init() {
