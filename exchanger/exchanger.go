@@ -30,10 +30,6 @@ type Decorator func(Exchanger) Exchanger
 var IgnoreErrTruncated Decorator = func(ex Exchanger) Exchanger {
 	return Func(func(m *dns.Msg, a string) (r *dns.Msg, rtt time.Duration, err error) {
 		r, rtt, err = ex.Exchange(m, a)
-		if err == dns.ErrTruncated {
-			// Ignore
-			err = nil
-		}
 		return
 	})
 }
