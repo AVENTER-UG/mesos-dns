@@ -1,11 +1,9 @@
-github.com/AVENTER-UG/mesos-go v0.0.12-0.20210805110736-f382f67087ed h1:hI8/KNjS1o1PxD9ZCcI/2SQaGziUz4UxtdhWl8CxY/s=
-github.com/AVENTER-UG/mesos-go v0.0.12-0.20210805110736-f382f67087ed/go.mod h1:IJnMYbu9wguHHYbKpitcZVf6+X3/pCAaJmSbS0J1OK0=
-github.com/dgrijalva/jwt-go v2.7.0+incompatible h1:54T2qn/iIwjg7JGrMsKD3WID0+CaYUrJgyXDM5ckYLk=
-github.com/dgrijalva/jwt-go v2.7.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=
+github.com/AVENTER-UG/mesos-go v0.0.11 h1:cL4mrmx/VujzAi94nNaivl1QjQJaffLG06fa/srijQ4=
+github.com/AVENTER-UG/mesos-go v0.0.11/go.mod h1:IJnMYbu9wguHHYbKpitcZVf6+X3/pCAaJmSbS0J1OK0=
+github.com/dgrijalva/jwt-go v3.2.0+incompatible h1:7qlOGliEKZXTDg6OTjfoBKDXWrumCAMpl/TFQ4/5kLM=
+github.com/dgrijalva/jwt-go v3.2.0+incompatible/go.mod h1:E3ru+11k8xSBh+hMPgOLZmtrrCbhqsmaPHjLKYnJCaQ=
 github.com/emicklei/go-restful v1.1.3 h1:KOKLkEASmIa2roa2xEV6WkADqyWrok5dt3TOMMHF1fE=
 github.com/emicklei/go-restful v1.1.3/go.mod h1:otzb+WCGbkyDHkqmQmT5YD2WR4BBwUdeQoFo8l/7tVs=
-github.com/go-zookeeper/zk v1.0.2 h1:4mx0EYENAdX/B/rbunjlt5+4RTA/a9SMHBRuSKdGxPM=
-github.com/go-zookeeper/zk v1.0.2/go.mod h1:nOB03cncLtlp4t+UAkGSV+9beXP/akpekBwL+UX1Qcw=
 github.com/gogo/protobuf v0.0.0-20150914153205-43ab7f0ec7b6 h1:YWJyfKeQPmOvcxsk+4OAV4eu8NpS2PEwy0mVMPeD9uA=
 github.com/gogo/protobuf v0.0.0-20150914153205-43ab7f0ec7b6/go.mod h1:r8qH/GZQm5c6nD/R0oafs1akxWv10x8SbQlK7atdtwQ=
 github.com/golang/glog v0.0.0-20150731225221-fca8c8854093 h1:Tl51hU0OQR50twFN/eA85c8wIBwPhi3IkRTufxbxMcY=
@@ -14,6 +12,8 @@ github.com/kylelemons/godebug v0.0.0-20150519154555-21cb3784d9bd h1:fQAexocAuf0o
 github.com/kylelemons/godebug v0.0.0-20150519154555-21cb3784d9bd/go.mod h1:B69LEHPfb2qLo0BaaOLcbitczOKLWTsrBG9LczfCD4k=
 github.com/miekg/dns v1.0.15 h1:9+UupePBQCG6zf1q/bGmTO1vumoG13jsrbWOSX1W6Tw=
 github.com/miekg/dns v1.0.15/go.mod h1:W1PPwlIAgtquWBMBEV9nkV9Cazfe8ScdGz/Lj7v3Nrg=
+github.com/samuel/go-zookeeper v0.0.0-20201211165307-7117e9ea2414 h1:AJNDS0kP60X8wwWFvbLPwDuojxubj9pbfK7pjHw0vKg=
+github.com/samuel/go-zookeeper v0.0.0-20201211165307-7117e9ea2414/go.mod h1:gi+0XIa01GRL2eRQVjQkKGqKF3SF9vZR/HnPullcV2E=
 github.com/stretchr/objx v0.0.0-20140526180921-cbeaeb16a013 h1:lg5xphrNMF4T2GfLhtXOhFrTn5ZmPRUOWXvCLOattFY=
 github.com/stretchr/objx v0.0.0-20140526180921-cbeaeb16a013/go.mod h1:HFkY916IF+rwdDfMAkV7OtwuqBVzrE8GR6GFx+wExME=
 github.com/stretchr/testify v0.0.0-20150914093255-b8dc1cecf15b h1:g89I92NUqEeCJv13tO0St7iOrnFIcpHqQgbEXDsHSGc=
