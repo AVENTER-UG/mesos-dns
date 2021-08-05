@@ -1,6 +1,4 @@
 2021-08-05: v0.8.1
-  Bugfix:
-    Change deprecated go-zookeeper libs to a maintained forke
   Update: 
     jwt-go to the current version. Fix the code to support the new jwt-go.
 
