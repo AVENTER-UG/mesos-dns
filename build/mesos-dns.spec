@@ -1,6 +1,6 @@
 Name:           mesos-dns
 Version:        v0.8.0
-Release:        rc2%{?dist}
+Release:        0%{?dist}
 Summary:        DNS Based service discovery for mesos
 Group:          System Environment/Daemons
 License:        Apache-2.0 License
