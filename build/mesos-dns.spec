@@ -18,7 +18,7 @@ DNS Based service discovery for mesos
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/usr/bin/
 mkdir -p $RPM_BUILD_ROOT/etc/mesos-dns/
-cd /root/mesos-dns/build
+cd build
 go build -o $RPM_BUILD_ROOT/usr/bin/mesos-dns ..
 chmod +x $RPM_BUILD_ROOT/usr/bin/mesos-dns
 
