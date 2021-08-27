@@ -1,6 +1,6 @@
 # Mesos-DNS 
 
-[![Chat](https://img.shields.io/static/v1?label=Chat&message=Support&color=brightgreen)](https://matrix.to/#/#mesosdns:matrix.aventer.biz?via=matrix.aventer.biz)
+[![Chat](https://img.shields.io/static/v1?label=Chat&message=Support&color=brightgreen)](https://matrix.to/#/#mesos:matrix.aventer.biz?via=matrix.aventer.biz)
 [![GoDoc](https://godoc.org/github.com/AVENTER-UG/mesos-dns?status.svg)](https://godoc.org/github.com/AVENTER-UG/mesos-dns) 
 
 ---
