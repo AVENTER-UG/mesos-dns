@@ -3,6 +3,14 @@
 [![Chat](https://img.shields.io/static/v1?label=Chat&message=Support&color=brightgreen)](https://matrix.to/#/#mesosdns:matrix.aventer.biz?via=matrix.aventer.biz)
 [![GoDoc](https://godoc.org/github.com/AVENTER-UG/mesos-dns?status.svg)](https://godoc.org/github.com/AVENTER-UG/mesos-dns) 
 
+---
+
+![info](https://cdn.rawgit.com/akutz/741a53ec8cd1348753556e8bd4d2836a/raw/399cb9e5b39436d119d77a893dd991db0a7b6f9f/info-circle.svg "info-circle") **Note:* This is a unofficial fork of the unmaintained mesos-dns.
+But we will care issues and PR's so good as possible.
+
+---
+
+
 Mesos-DNS enables [DNS](https://en.wikipedia.org/wiki/Domain_Name_System)-based service discovery in [Apache Mesos](https://mesos.apache.org/) clusters.
 
 ![Architecture Diagram](https://aventer-ug.github.io/mesos-dns/img/architecture.png)
