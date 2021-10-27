@@ -1,0 +1,97 @@
+2021-08-05: v0.8.1
+  Update: 
+    jwt-go to the current version. Fix the code to support the new jwt-go.
+
+
+2021-06-21: v0.8.0
+  New Features:
+    Generate additional Slave SRV records if DiscoveryInfo port name is specified
+    
+2019-05-10: v0.7.0
+  New Features:
+    IPv6 is now supported.
+    TLS supports client-side cert + keypair.
+    Zone-specific resolvers.
+
+  Enhancements:
+    dns: truncate bit is configurable.
+    dns: non-zero weight for returned SRV records.
+    mesos: poll /state instead of /state.json.
+    logs: updated logging regarding new masters.
+    logs: added error message when no masters discovered.
+    Bump underlying libraries to pick up fixes (DNS, HTTP API).
+
+  Fixes:
+    api/dns: wait for a reload before serving DNS and HTTP.
+    api: specify valid Accept content types.
+    dns: properly report SOA mname (instead of rname).
+    docs: document the `enumerate` endpoint.
+    docs: correct URL in contrib/ansible-gce/README.md.
+    docs: clean up formatting, typos and so on.
+
+2016-09-14: v0.6.0
+  Added some benchmarks for RecordGenerator.insertRR
+  Make minor fixes to enumeration API, where it would return null, as
+    as opposed to an empty list
+  Add the AXFR (record listing) HTTP API endpoint
+  Make HTTP listener address configurable
+  General improvements to the HTTP client
+    -Pool HTTP connections, preventing connection leakage
+    -Set the User Agent
+  Switch the project to Go Vendor as opposed to Godeps
+  Add HTTPS Client support to Mesos-DNS (for state.json)
+  Add Mesos authentication support
+  Fix tasks from more than 63 dashes and a non - character from
+    crashing Mesos-DNS
+  Don't treat truncated records as an error.
+
+2016-03-04: v0.5.2
+  Add EnforceRFC952 to sample config
+  Improve performance of record generation
+  Fix bug in DiscoveryInfo to use the same scheme for record creation
+    as normal records (#377)
+  Add enumeration API (#402)
+  Generate additional SRV records if DiscoveryInfo port name is specified
+
+2015-11-25: v0.5.1
+  Add code signing to CI portion of repo
+  documentation: Try to alleviate issues around IPSources
+  resolver: Fix errant NXDOMAIN errors 
+  
+2015-11-19: v0.5.0
+  Move repo, CI, and build tools to use Go 1.5
+  resolver: Remove answers to fit 512 byte when truncating (#237, #326)
+  generator: Add Timeout when fetching state.json (#243)
+  generator: Fix hashString to introduce a sha1 hash (#157)
+  Add support for Mesos 0.26 "NetworkInfo"
+    -If you use NetworkInfo, in order to upgrade from Mesos 0.25->Mesos 0.26
+     you must use Mesos-DNS 0.5.0
+
+2015-10-09: v0.4.0
+  Smarter leading Mesos master detection timeout logic (#284, #306, #320)
+  resolver: Fix data races to RNG and SOASerial (#317)
+  Remove bogus "NS request" error log line (#316)
+  Transparent forwarding as per RFC5625 (#301, #307)
+  Idiomatic struct definitions (#232, #312)
+  exchanger: Improve error logging (#303)
+  Generate correct SOA and NS records (#295, #296)
+  detect: Extract address from MasterInfo.Address (#289, #290)
+  state: Call given src only once per statusIPs call (#285)
+
+2015-09-23: v0.3.0
+  Add support for Mesos 0.25 "NetworkInfo" as an IPSource (#266, #267, #268)
+  Find home directory with environment variables (#275, #277, #278)
+
+2015-09-15: v0.2.0
+  Mesos 0.24.0 compatibility (#263, #228)
+  Configurable ZooKeeper detection timeout (#260)
+  Configurable "IPSources" for A and SRV records (#226)
+  Mesos framework A and SRV records (#209)
+  Mesos slave A and SRV records (#208)
+  Mesos task container A records (#204)
+  Default to RFC1123 labels (#177)
+  Compress all DNS replies (#173)
+  Mesos master A and SRV records (#169)
+  Resolver and masters configuration validation (#158)
+  Fix buggy character range used for RFC952 label conversion (#155)
+  Patch up slave address resolution (#153, #151)

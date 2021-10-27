@@ -1,69 +1,79 @@
-# Mesos-DNS Docs Website
+# Mesos-DNS 
 
-You can view the online version of these documents at [https://mesosphere.github.io/mesos-dns](https://mesosphere.github.io/mesos-dns).
+[![Chat](https://img.shields.io/static/v1?label=Chat&message=Support&color=brightgreen)](https://matrix.to/#/#mesos:matrix.aventer.biz?via=matrix.aventer.biz)
+[![GoDoc](https://godoc.org/github.com/AVENTER-UG/mesos-dns?status.svg)](https://godoc.org/github.com/AVENTER-UG/mesos-dns) 
 
-## Run it locally
+---
 
-Ensure you have installed everything listed in the dependencies section before
-following the instructions.
+![info](https://cdn.rawgit.com/akutz/741a53ec8cd1348753556e8bd4d2836a/raw/399cb9e5b39436d119d77a893dd991db0a7b6f9f/info-circle.svg "info-circle") **Note:* This is a unofficial fork of the unmaintained mesos-dns.
+But we will care issues and PR's so good as possible.
 
-### Dependencies
+---
 
-* [Bundler](http://bundler.io/)
-* [Node.js](http://nodejs.org/) (for compiling assets)
-* Python
-* Ruby
-* [RubyGems](https://rubygems.org/)
 
-### Instructions
+Mesos-DNS enables [DNS](https://en.wikipedia.org/wiki/Domain_Name_System)-based service discovery in [Apache Mesos](https://mesos.apache.org/) clusters.
 
-1. Install packages needed to generate the site
+![Architecture Diagram](https://aventer-ug.github.io/mesos-dns/img/architecture.png)
 
-    * On Linux:
+## Compatibility
 
-            apt-get install ruby-dev make autoconf nodejs nodejs-legacy python-dev
-    * On Mac OS X:
+`mesos-N` tags mark the start of support for a specific Mesos version while
+maintaining backwards compatibility with the previous major version.
 
-            brew install node
+## Installing
 
-2. Clone the Mesos-DNS repository
+The official release binaries are available at the [AVENTER UG RPM Server](http://rpm.aventer.biz/CentOS/7/x86_64/).
 
-3. Change into the "docs" directory where docs live
+## Building
 
-        cd docs
+Building the **master** branch from source should always succeed but doesn't provide
+the same stability and compatibility guarantees as releases.
 
-4. Install Bundler
+You will need [Go](https://golang.org/) *1.6* or later to build the project.
+All dependencies are tracked using `godep`.
 
-        sudo gem install bundler
+```shell
+# Install godep
+$ go get github.com/tools/godep
 
-5. Install the bundle's dependencies
+# Save new dependencies
+$ godep save ./...
 
-        bundle install
+# Build
+$ go build ./...
+```
 
-6. Start the web server
+### Building a release
 
-        bundle exec jekyll serve --watch
+1. Cut a branch.
+2. Tag it with the relevant version, and push the tags along with the branch.
 
-7. Visit the site at [http://localhost:4000/mesos-dns/](http://localhost:4000/mesos-dns/)
+### Making a private build
 
-## Deploying the site
+1. Fork the repo on Github.
+2. Customize that repo.
+3. Go to the build steps.
 
-1. Clone a separate copy of the Mesos-DNS repo as a sibling of your normal Mesos-DNS project directory and name it "mesos-dns-gh-pages".
+## Testing
 
-        git clone git@github.com:mesosphere/mesos-dns.git mesos-dns-gh-pages
+```shell
+go test -race ./...
+```
 
-2. Check out the "gh-pages" branch.
+## Documentation
 
-        cd /path/to/mesos-dns-gh-pages
-        git checkout -b gh-pages
+The detailed documentation on how to configure, operate and use Mesos-DNS
+under different scenarios and environments is available at the project's [home page](https://aventer-ug.github.io/mesos-dns/).
 
-3. Copy the contents of the "docs" directory in master to the root of your mesos-dns-gh-pages directory.
+## Contributing
 
-        cd /path/to/mesos-dns
-        cp -r docs/** ../mesos-dns-gh-pages
+Contributions are welcome. Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
 
-4. Change to the mesos-dns-gh-pages directory, commit, and push the changes
+## Contact
 
-        cd /path/to/mesos-dns-gh-pages
-        git commit . -m "Syncing docs with master branch"
-        git push
+For any discussion that isn't well suited for Github [issues](https://github.com/AVNETER-UG/mesos-dns/issues),
+please use our public [chat room](https://matrix.to/#/#mesosdns:matrix.aventer.biz?via=matrix.aventer.biz)
+
+## License
+
+This project is licensed under [Apache License 2.0](LICENSE).
