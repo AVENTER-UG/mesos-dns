@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mesos-DNS: Service Naming</title>
+    <link rel="icon" type="image/x-icon" href="/mesos-dns/img/mesos-dns-favicon.ico">
+    <link href="//cdn.jsdelivr.net/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/mesos-dns/css/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <div class="navbar navbar-default navbar-inverse" role="navigation">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/mesos-dns/">Mesos-DNS</a>
+              </div>
+              <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav">
+                  <li class="active">
+                    <a href="/mesos-dns/docs/">Docs</a>
+                  </li>
+                  <li >
+                    <a href="/mesos-dns/resources.html">Resources</a>
+                  </li>
+                  <li >
+                    <a href="/mesos-dns/support.html">Support</a>
+                  </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  <li><a href="https://github.com/AVENTER-UG/mesos-dns">GitHub</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+  <div class="col-sm-3">
+    <h5>Documentation</h5>
+    <ul class="list-unstyled">
+      <li>
+        <a href="/mesos-dns/docs/">
+          Installing and running
+        </a>
+      </li>
+       <li>
+        <a href="/mesos-dns/docs/configuration-parameters.html">
+        Configuration</a>
+      </li>
+       <li>
+        <a href="/mesos-dns/docs/naming.html">
+          Service Naming
+        </a>
+      </li>
+       <li>
+        <a href="/mesos-dns/docs/http.html">
+          HTTP API
+        </a>
+      </li>
+      <li>
+        <a href="/mesos-dns/docs/performance-tuning.html">
+          Performance Tuning
+        </a>
+      </li>
+       <li>
+        <a href="/mesos-dns/docs/faq.html">
+          FAQ & Troubleshooting
+        </a>
+      </li>
+    <hr>
+    <h5>Tutorials</h5>
+    <ul class="list-unstyled">
+       <li>
+        <a href="/mesos-dns/docs/tutorial.html">
+        Mesos-DNS</a>
+      </li>
+       <li>
+        <a href="/mesos-dns/docs/tutorial-forward.html">
+        Mesos-DNS and Bind</a>
+      </li>
+       <li>
+        <a href="/mesos-dns/docs/tutorial-systemd.html">
+        Mesos-DNS using Systemd</a>
+      </li>
+
+    <hr>
+    </ul>
+<!---
+    <h5>Resources</h5>
+    <ul class="list-unstyled">
+      <li>
+        <a href="/mesos-dns/docs/deployment-design-doc.html">
+          Deployment Design
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <h5>Upgrading</h5>
+    <ul class="list-unstyled">
+      <li>
+        <a href="/mesos-dns/docs/upgrade/06xto070.html">
+          0.6.x to 0.7.0
+        </a>
+      </li>
+    </ul>
+-->
+  </div>
+  <div class="col-sm-9">
+    <h1 id="service-naming">Service Naming</h1>
+
+<p>Mesos-DNS defines a DNS domain for Mesos tasks (<code class="language-plaintext highlighter-rouge">.mesos</code> by default, see <a href="configuration-parameters.html">instructions on configuration</a>). Running tasks can be discovered by looking up A, AAAA, and, optionally, SRV records within the Mesos domain.</p>
+
+<h2 id="a-and-aaaa-records">A and AAAA Records</h2>
+
+<p>A and AAAA records associate a hostname to an IPv4 or IPv6 address respectively.
+For task <code class="language-plaintext highlighter-rouge">task</code> launched by framework <code class="language-plaintext highlighter-rouge">framework</code>, Mesos-DNS generates an A or AAAA record for hostname <code class="language-plaintext highlighter-rouge">task.framework.domain</code> that provides one of the following:</p>
+
+<ul>
+  <li>the IP address of the task’s network container (provided by a Mesos containerizer); or</li>
+  <li>the IP address of the specific agent node running the task.</li>
+</ul>
+
+<p>For example, other Mesos tasks can discover the IP address for service <code class="language-plaintext highlighter-rouge">search</code> launched by the <code class="language-plaintext highlighter-rouge">marathon</code> framework with a lookup for <code class="language-plaintext highlighter-rouge">search.marathon.mesos</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>dig search.marathon.mesos
+<span class="go">
+</span><span class="gp">;</span><span class="w"> </span>&lt;&lt;<span class="o">&gt;&gt;</span> DiG 9.8.4-rpz2+rl005.12-P1 &lt;&lt;<span class="o">&gt;&gt;</span> search.marathon.mesos
+<span class="gp">;</span><span class="p">;</span> global options: +cmd
+<span class="gp">;</span><span class="p">;</span> Got answer:
+<span class="gp">;</span><span class="p">;</span> -&gt;&gt;HEADER<span class="o">&lt;&lt;-</span> <span class="no">opcode</span><span class="sh">: QUERY, status: NOERROR, id: 24471
+</span><span class="gp">;</span><span class="sh">; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 0
+</span><span class="go">
+</span><span class="gp">;</span><span class="p">;</span> QUESTION SECTION:
+<span class="gp">;</span>search.marathon.mesos.         IN  A
+<span class="go">
+</span><span class="gp">;</span><span class="p">;</span> ANSWER SECTION:
+<span class="go">search.marathon.mesos.    60    IN  A 10.9.87.94
+</span></code></pre></div></div>
+
+<p>If the following conditions are true:</p>
+
+<ul>
+  <li>the Mesos-DNS IP-source configuration prioritizes container IPs, and</li>
+  <li>the Mesos containerizer that launches the task provides a container IP <code class="language-plaintext highlighter-rouge">10.0.4.1</code> for the task <code class="language-plaintext highlighter-rouge">search.marathon.mesos</code></li>
+</ul>
+
+<p>then the lookup would give:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>dig search.marathon.mesos
+<span class="go">
+</span><span class="gp">;</span><span class="w"> </span>&lt;&lt;<span class="o">&gt;&gt;</span> DiG 9.8.4-rpz2+rl005.12-P1 &lt;&lt;<span class="o">&gt;&gt;</span> search.marathon.mesos
+<span class="gp">;</span><span class="p">;</span> global options: +cmd
+<span class="gp">;</span><span class="p">;</span> Got answer:
+<span class="gp">;</span><span class="p">;</span> -&gt;&gt;HEADER<span class="o">&lt;&lt;-</span> <span class="no">opcode</span><span class="sh">: QUERY, status: NOERROR, id: 24471
+</span><span class="gp">;</span><span class="sh">; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 1, ADDITIONAL: 0
+</span><span class="go">
+</span><span class="gp">;</span><span class="p">;</span> QUESTION SECTION:
+<span class="gp">;</span>search.marathon.mesos.         IN  A
+<span class="go">
+</span><span class="gp">;</span><span class="p">;</span> ANSWER SECTION:
+<span class="go">search.marathon.mesos.      60  IN  A   10.0.4.1
+</span></code></pre></div></div>
+
+<p>In addition to the <code class="language-plaintext highlighter-rouge">task.framework.domain</code> semantics above Mesos-DNS always generates an A record <code class="language-plaintext highlighter-rouge">task.framework.slave.domain</code> that references the IP address(es) of the agent node(s) upon which the task is running. For example, a query of the A records for <code class="language-plaintext highlighter-rouge">search.marathon.slave.mesos</code> would yield the IP address of each agent node running one or more instances of the <code class="language-plaintext highlighter-rouge">search</code> application on the <code class="language-plaintext highlighter-rouge">marathon</code> framework.</p>
+
+<p><em>Note</em>: Container IPs must be provided by the executor of a task in one of the following task status labels:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">Docker.NetworkSettings.IPAddress</code></li>
+  <li><code class="language-plaintext highlighter-rouge">MesosContainerizer.NetworkSettings.IPAddress</code></li>
+</ul>
+
+<p>In general support for these will not be available before Mesos 0.24.</p>
+
+<p>If the following conditions are true:</p>
+
+<ul>
+  <li>the Mesos-DNS IP-source configuration prioritizes container IPs; and</li>
+  <li>the Mesos containerizer that launches the task provides a container IP <code class="language-plaintext highlighter-rouge">fd01:b::2:8000:2</code> for the task <code class="language-plaintext highlighter-rouge">search.marathon.mesos</code></li>
+</ul>
+
+<p>then a lookup for AAAA would give:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>dig search.marathon.mesos
+<span class="go">
+</span><span class="gp">;</span><span class="w"> </span>&lt;&lt;<span class="o">&gt;&gt;</span> DiG 9.8.4-rpz2+rl005.12-P1 &lt;&lt;<span class="o">&gt;&gt;</span> search.marathon.mesos
+<span class="gp">;</span><span class="p">;</span> global options: +cmd
+<span class="gp">;</span><span class="p">;</span> Got answer:
+<span class="gp">;</span><span class="p">;</span> -&gt;&gt;HEADER<span class="o">&lt;&lt;-</span> <span class="no">opcode</span><span class="sh">: QUERY, status: NOERROR, id: 45066
+</span><span class="gp">;</span><span class="sh">; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+</span><span class="go">
+</span><span class="gp">;</span><span class="p">;</span> QUESTION SECTION:
+<span class="gp">;</span>search.marathon.mesos.     IN  AAAA
+<span class="go">
+</span><span class="gp">;</span><span class="p">;</span> ANSWER SECTION:
+<span class="go">search.marathon.mesos. 60   IN  AAAA fd01:b::2:8000:2
+</span></code></pre></div></div>
+
+<h2 id="srv-records">SRV Records</h2>
+
+<p>An SRV record associates a service name to a hostname and an IP port.</p>
+
+<p>For task <code class="language-plaintext highlighter-rouge">task</code> launched by framework <code class="language-plaintext highlighter-rouge">framework</code>, Mesos-DNS generates an SRV record for service name <code class="language-plaintext highlighter-rouge">_task._protocol.framework.domain</code>, where <code class="language-plaintext highlighter-rouge">protocol</code> is <code class="language-plaintext highlighter-rouge">udp</code> or <code class="language-plaintext highlighter-rouge">tcp</code>. For example, other Mesos tasks can discover service <code class="language-plaintext highlighter-rouge">search</code> launched by the <code class="language-plaintext highlighter-rouge">marathon</code> framework with a lookup for lookup <code class="language-plaintext highlighter-rouge">_search._tcp.marathon.mesos</code>:</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>dig _search._tcp.marathon.mesos SRV
+<span class="go">
+</span><span class="gp">;</span><span class="w"> </span>&lt;&lt;<span class="o">&gt;&gt;</span> DiG 9.8.4-rpz2+rl005.12-P1 &lt;&lt;<span class="o">&gt;&gt;</span> _search._tcp.marathon.mesos SRV
+<span class="gp">;</span><span class="p">;</span> global options: +cmd
+<span class="gp">;</span><span class="p">;</span> Got answer:
+<span class="gp">;</span><span class="p">;</span> -&gt;&gt;HEADER<span class="o">&lt;&lt;-</span> <span class="no">opcode</span><span class="sh">: QUERY, status: NOERROR, id: 33793
+</span><span class="gp">;</span><span class="sh">; flags: qr aa rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 0
+</span><span class="go">
+</span><span class="gp">;</span><span class="p">;</span> QUESTION SECTION:
+<span class="gp">;</span>_search._tcp.marathon.mesos.   IN SRV
+<span class="go">
+</span><span class="gp">;</span><span class="p">;</span> ANSWER SECTION:
+<span class="go">_search._tcp.marathon.mesos.    60 IN SRV 0 0 31302 10.254.132.41.
+</span></code></pre></div></div>
+
+<p>Mesos-DNS supports the use of a task’s DiscoveryInfo for SRV record generation. If no DiscoveryInfo is available then Mesos-DNS will fall back to those “ports” resources allocated for the task.</p>
+
+<p>The following table illustrates the rules that govern SRV generation:</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Service</th>
+      <th>CT-IP Avail</th>
+      <th>DI Avail</th>
+      <th>Target Host</th>
+      <th>Target Port</th>
+      <th>A (Target Resolution)</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td><em>{task}.</em>{proto}.framework.domain</td>
+      <td>no</td>
+      <td>no</td>
+      <td>{task}.framework.slave.domain</td>
+      <td>host-port</td>
+      <td>slave-ip</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>yes</td>
+      <td>no</td>
+      <td>{task}.framework.slave.domain</td>
+      <td>host-port</td>
+      <td>slave-ip</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>no</td>
+      <td>yes</td>
+      <td>{task}.framework.domain</td>
+      <td>di-port</td>
+      <td>slave-ip</td>
+    </tr>
+    <tr>
+      <td> </td>
+      <td>yes</td>
+      <td>yes</td>
+      <td>{task}.framework.domain</td>
+      <td>di-port</td>
+      <td>container-ip</td>
+    </tr>
+    <tr>
+      <td><em>{task}.</em>{proto}.framework.slave.domain</td>
+      <td>n/a</td>
+      <td>n/a</td>
+      <td>{task}.framework.slave.domain</td>
+      <td>host-port</td>
+      <td>slave-ip</td>
+    </tr>
+  </tbody>
+</table>
+
+<h2 id="other-records">Other Records</h2>
+
+<p>Mesos-DNS generates a few special records:</p>
+
+<ul>
+  <li>for the leading master: A or AAAA record (<code class="language-plaintext highlighter-rouge">leader.domain</code>) and SRV records (<code class="language-plaintext highlighter-rouge">_leader._tcp.domain</code> and <code class="language-plaintext highlighter-rouge">_leader._udp.domain</code>)</li>
+  <li>for all framework schedulers: A and AAAA records (<code class="language-plaintext highlighter-rouge">framework.domain</code>) and SRV records (<code class="language-plaintext highlighter-rouge">_framework._tcp.framework.domain</code>)</li>
+  <li>for every known Mesos master: A or AAAA records (<code class="language-plaintext highlighter-rouge">master.domain</code>) and SRV records (<code class="language-plaintext highlighter-rouge">_master._tcp.domain</code> and <code class="language-plaintext highlighter-rouge">_master._udp.domain</code>)</li>
+  <li>for every known Mesos agent: A or AAAA records (<code class="language-plaintext highlighter-rouge">slave.domain</code>) and SRV records (<code class="language-plaintext highlighter-rouge">_slave._tcp.domain</code>).</li>
+</ul>
+
+<p>Note that, if you configure Mesos-DNS to detect the leading master through ZooKeeper, then this is the only master it knows about. If you configure Mesos-DNS using the <code class="language-plaintext highlighter-rouge">masters</code> field, it will generate master records for every master in the list. Also note that there is inherent delay between the election of a new master and the update of leader/master records in Mesos-DNS.</p>
+
+<p>Mesos-DNS generates A records for itself that list all the IP addresses that Mesos-DNS is listening on. The name for Mesos-DNS can be selected using the <code class="language-plaintext highlighter-rouge">SOAMname</code> <a href="configuration-parameters.html">configuration parameter</a>. The default name is <code class="language-plaintext highlighter-rouge">ns1.mesos</code>.</p>
+
+<p>In addition to A and SRV records for Mesos tasks, Mesos-DNS supports requests for SOA and NS records for the Mesos domain. DNS requests for records of other types in the Mesos domain will return <code class="language-plaintext highlighter-rouge">NXDOMAIN</code>. Mesos-DNS does not support PTR records needed for reverse lookups.</p>
+
+<h2 id="notes">Notes</h2>
+
+<p>If a framework launches multiple tasks with the same name, the DNS lookup will return multiple records, one per task. Mesos-DNS randomly shuffles the order of records to provide rudimentary load balancing between these tasks.</p>
+
+<p>Mesos-DNS follows <a href="https://tools.ietf.org/html/rfc952">RFC 952</a> for name formatting. All fields used to construct hostnames for A records and service names for SRV records must be up to 24 characters and drawn from the alphabet (A-Z), digits (0-9) and minus sign (-). No distinction is made between upper and lower case. If the task name does not comply with these constraints, Mesos-DNS will trim it, remove all invalid characters, and replace period (.) with sign (-) for task names. For framework names, we allow period (.) but all other constraints apply.  For example, a task named <code class="language-plaintext highlighter-rouge">apiserver.myservice</code> launch by framework <code class="language-plaintext highlighter-rouge">marathon.prod</code>, will have A records associated with the name <code class="language-plaintext highlighter-rouge">apiserver-myservice.marathon.prod.mesos</code> and SRV records associated with name <code class="language-plaintext highlighter-rouge">_apiserver-myservice._tcp.marathon.prod.mesos</code>.</p>
+
+<p>Some frameworks register with longer, less friendly names. For example, earlier versions of marathon may register with names like <code class="language-plaintext highlighter-rouge">marathon-0.7.5</code>, which will lead to names like <code class="language-plaintext highlighter-rouge">search.marathon-0.7.5.mesos</code>. Make sure your framework registers with the desired name. For instance, you can launch marathon with <code class="language-plaintext highlighter-rouge">--framework_name marathon</code> to get the framework registered as <code class="language-plaintext highlighter-rouge">marathon</code>.</p>
+
+  </div>
+</div>
+
+          <footer>
+            <p class="text-muted">
+              &copy; 2015 <a class="text-muted" href="http://mesosphere.com">Mesosphere, Inc.</a>
+              &copy; 2021 <a class="text-muted" href="https://www.aventer.biz">AVENTER UG (haftungsbeschränkt).</a>
+            </p>
+          </footer>
+        </div>
+      </div>
+    </div>
+    <script src="//cdn.jsdelivr.net/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  </body>
+</html>

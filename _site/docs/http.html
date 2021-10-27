@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mesos-DNS: HTTP Interface</title>
+    <link rel="icon" type="image/x-icon" href="/mesos-dns/img/mesos-dns-favicon.ico">
+    <link href="//cdn.jsdelivr.net/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/mesos-dns/css/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <div class="navbar navbar-default navbar-inverse" role="navigation">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/mesos-dns/">Mesos-DNS</a>
+              </div>
+              <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav">
+                  <li class="active">
+                    <a href="/mesos-dns/docs/">Docs</a>
+                  </li>
+                  <li >
+                    <a href="/mesos-dns/resources.html">Resources</a>
+                  </li>
+                  <li >
+                    <a href="/mesos-dns/support.html">Support</a>
+                  </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  <li><a href="https://github.com/AVENTER-UG/mesos-dns">GitHub</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+  <div class="col-sm-3">
+    <h5>Documentation</h5>
+    <ul class="list-unstyled">
+      <li>
+        <a href="/mesos-dns/docs/">
+          Installing and running
+        </a>
+      </li>
+       <li>
+        <a href="/mesos-dns/docs/configuration-parameters.html">
+        Configuration</a>
+      </li>
+       <li>
+        <a href="/mesos-dns/docs/naming.html">
+          Service Naming
+        </a>
+      </li>
+       <li>
+        <a href="/mesos-dns/docs/http.html">
+          HTTP API
+        </a>
+      </li>
+      <li>
+        <a href="/mesos-dns/docs/performance-tuning.html">
+          Performance Tuning
+        </a>
+      </li>
+       <li>
+        <a href="/mesos-dns/docs/faq.html">
+          FAQ & Troubleshooting
+        </a>
+      </li>
+    <hr>
+    <h5>Tutorials</h5>
+    <ul class="list-unstyled">
+       <li>
+        <a href="/mesos-dns/docs/tutorial.html">
+        Mesos-DNS</a>
+      </li>
+       <li>
+        <a href="/mesos-dns/docs/tutorial-forward.html">
+        Mesos-DNS and Bind</a>
+      </li>
+       <li>
+        <a href="/mesos-dns/docs/tutorial-systemd.html">
+        Mesos-DNS using Systemd</a>
+      </li>
+
+    <hr>
+    </ul>
+<!---
+    <h5>Resources</h5>
+    <ul class="list-unstyled">
+      <li>
+        <a href="/mesos-dns/docs/deployment-design-doc.html">
+          Deployment Design
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <h5>Upgrading</h5>
+    <ul class="list-unstyled">
+      <li>
+        <a href="/mesos-dns/docs/upgrade/06xto070.html">
+          0.6.x to 0.7.0
+        </a>
+      </li>
+    </ul>
+-->
+  </div>
+  <div class="col-sm-9">
+    <h1 id="http-interface">HTTP Interface</h1>
+
+<p>Mesos-DNS implements a simple REST API for service discovery over HTTP:</p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">GET /v1/version</code>: lists the Mesos-DNS version</li>
+  <li><code class="language-plaintext highlighter-rouge">GET /v1/config</code>: lists the Mesos-DNS configuration info</li>
+  <li><code class="language-plaintext highlighter-rouge">GET /v1/hosts/{host}</code>: lists the IP address of a host</li>
+  <li><code class="language-plaintext highlighter-rouge">GET /v1/services/{service}</code>: lists the host, IP address, and port for a service</li>
+  <li><code class="language-plaintext highlighter-rouge">GET /v1/enumerate</code>: lists all DNS information</li>
+</ul>
+
+<h2 id="get-v1version"><code class="language-plaintext highlighter-rouge">GET /v1/version</code></h2>
+
+<p>Lists in JSON format the Mesos-DNS version and source code URL.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>curl http://10.190.238.173:8123/v1/version
+<span class="go">{
+  "Service":"Mesos-DNS",
+  "URL":"https://github.com/AVENTER-UG/mesos-dns","Version":"0.1.1"
+}
+</span></code></pre></div></div>
+
+<h2 id="get-v1config"><code class="language-plaintext highlighter-rouge">GET /v1/config</code></h2>
+
+<p>Lists in JSON format the Mesos-DNS configuration parameters.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">curl http://10.190.238.173:8123/v1/config
+{
+  "Masters":null,
+  "Zk":"zk://10.207.154.85:2181/mesos",
+  "RefreshSeconds":60,
+  "TTL":60,
+  "Port":53,
+  "Domain":"mesos",
+  "Resolvers":["169.254.169.254","10.0.0.1"],
+  "Timeout":5,
+  "Email":"root.mesos-dns.mesos.",
+  "Mname":"mesos-dns.mesos.",
+  "Listener":"0.0.0.0",
+  "HttpPort":8123,
+  "DnsOn":true,
+  "HttpOn":true
+}
+</span></code></pre></div></div>
+
+<h2 id="get-v1hostshost"><code class="language-plaintext highlighter-rouge">GET /v1/hosts/{host}</code></h2>
+
+<p>Lists in JSON format the IP address(es) that correspond to a hostname. It is the equivalent of DNS A and AAAA record lookup.  Note, the HTTP interface only translates hostnames in the Mesos domain.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="gp">$</span><span class="w"> </span>curl http://10.190.238.173:8123/v1/hosts/nginx.marathon.mesos
+<span class="go">[
+  {"host":"nginx.marathon.mesos.","ip":"10.249.219.155"},
+  {"host":"nginx.marathon.mesos.","ip":"10.190.238.173"},
+  {"host":"nginx.marathon.mesos.","ip":"10.156.230.230"}
+]
+</span></code></pre></div></div>
+
+<h2 id="get-v1servicesservice"><code class="language-plaintext highlighter-rouge">GET /v1/services/{service}</code></h2>
+
+<p>Lists in JSON format the hostname, IP address, and ports that correspond to a hostname. It is the equivalent of DNS SRV record lookup.  Note, the HTTP interface only translates services in the Mesos domain.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">curl http://10.190.238.173:8123/v1/services/_nginx._tcp.marathon.mesos.
+[
+  {"host":"nginx-s2.marathon.mesos.","ip":"10.249.219.155","port":"31644", "service":"_nginx._tcp.marathon.mesos."},
+  {"host":"nginx-s1.marathon.mesos.","ip":"10.190.238.173","port":"31667","service":"_nginx._tcp.marathon.mesos."},
+  {"host":"nginx-s0.marathon.mesos.","ip":"10.156.230.230","port":"31880","service":"_nginx._tcp.marathon.mesos."}
+]
+</span></code></pre></div></div>
+
+<h2 id="get-v1enumerate"><code class="language-plaintext highlighter-rouge">GET /v1/enumerate</code></h2>
+
+<p>Lists in JSON format all DNS information.</p>
+
+<div class="language-console highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="go">curl http://127.0.0.1:8123/v1/enumerate
+{
+  "frameworks": [
+    {
+      "tasks": [],
+      "name": "metronome"
+    },
+    {
+      "tasks": [
+        {
+          "name": "nginx",
+          "id": "nginx.48dccce7-90bc-11e6-ae70-70b3d5800001",
+          "records": [
+            {
+              "name": "nginx.marathon.mesos.",
+              "host": "10.10.0.93",
+              "rtype": "A"
+            },
+            {
+              "name": "nginx-jhy6r-s1.marathon.mesos.",
+              "host": "10.10.0.93",
+              "rtype": "A"
+            },
+            {
+              "name": "nginx.marathon.slave.mesos.",
+              "host": "10.10.0.93",
+              "rtype": "A"
+            },
+            {
+              "name": "nginx-jhy6r-s1.marathon.slave.mesos.",
+              "host": "10.10.0.93",
+              "rtype": "A"
+            },
+            {
+              "name": "_nginx._tcp.marathon.slave.mesos.",
+              "host": "nginx-jhy6r-s1.marathon.slave.mesos.:7564",
+              "rtype": "SRV"
+            },
+            {
+              "name": "_nginx._udp.marathon.slave.mesos.",
+              "host": "nginx-jhy6r-s1.marathon.slave.mesos.:7564",
+              "rtype": "SRV"
+            },
+            {
+              "name": "_nginx._tcp.marathon.mesos.",
+              "host": "nginx-jhy6r-s1.marathon.mesos.:7564",
+              "rtype": "SRV"
+            },
+            {
+              "name": "_nginx._nginx._tcp.marathon.mesos.",
+              "host": "nginx-jhy6r-s1.marathon.mesos.:7564",
+              "rtype": "SRV"
+            },
+            {
+              "name": "_nginx._nginx._tcp.marathon.slave.mesos.",
+              "host": "nginx-jhy6r-s1.marathon.slave.mesos.:7564",
+              "rtype": "SRV"
+            }
+          ]
+        }
+      ],
+      "name": "marathon"
+    }
+  ]
+}
+</span></code></pre></div></div>
+
+  </div>
+</div>
+
+          <footer>
+            <p class="text-muted">
+              &copy; 2015 <a class="text-muted" href="http://mesosphere.com">Mesosphere, Inc.</a>
+              &copy; 2021 <a class="text-muted" href="https://www.aventer.biz">AVENTER UG (haftungsbeschränkt).</a>
+            </p>
+          </footer>
+        </div>
+      </div>
+    </div>
+    <script src="//cdn.jsdelivr.net/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  </body>
+</html>

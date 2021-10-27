@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Mesos-DNS: Mesos-DNS Configuration Parameters</title>
+    <link rel="icon" type="image/x-icon" href="/mesos-dns/img/mesos-dns-favicon.ico">
+    <link href="//cdn.jsdelivr.net/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet">
+    <link href="/mesos-dns/css/style.css" rel="stylesheet">
+  </head>
+  <body>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-10 col-sm-offset-1">
+          <div class="navbar navbar-default navbar-inverse" role="navigation">
+            <div class="container-fluid">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+                  <span class="sr-only">Toggle navigation</span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="/mesos-dns/">Mesos-DNS</a>
+              </div>
+              <div class="collapse navbar-collapse" id="navbar-collapse">
+                <ul class="nav navbar-nav">
+                  <li class="active">
+                    <a href="/mesos-dns/docs/">Docs</a>
+                  </li>
+                  <li >
+                    <a href="/mesos-dns/resources.html">Resources</a>
+                  </li>
+                  <li >
+                    <a href="/mesos-dns/support.html">Support</a>
+                  </li>
+                </ul>
+                <ul class="nav navbar-nav navbar-right">
+                  <li><a href="https://github.com/AVENTER-UG/mesos-dns">GitHub</a></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+  <div class="col-sm-3">
+    <h5>Documentation</h5>
+    <ul class="list-unstyled">
+      <li>
+        <a href="/mesos-dns/docs/">
+          Installing and running
+        </a>
+      </li>
+       <li>
+        <a href="/mesos-dns/docs/configuration-parameters.html">
+        Configuration</a>
+      </li>
+       <li>
+        <a href="/mesos-dns/docs/naming.html">
+          Service Naming
+        </a>
+      </li>
+       <li>
+        <a href="/mesos-dns/docs/http.html">
+          HTTP API
+        </a>
+      </li>
+      <li>
+        <a href="/mesos-dns/docs/performance-tuning.html">
+          Performance Tuning
+        </a>
+      </li>
+       <li>
+        <a href="/mesos-dns/docs/faq.html">
+          FAQ & Troubleshooting
+        </a>
+      </li>
+    <hr>
+    <h5>Tutorials</h5>
+    <ul class="list-unstyled">
+       <li>
+        <a href="/mesos-dns/docs/tutorial.html">
+        Mesos-DNS</a>
+      </li>
+       <li>
+        <a href="/mesos-dns/docs/tutorial-forward.html">
+        Mesos-DNS and Bind</a>
+      </li>
+       <li>
+        <a href="/mesos-dns/docs/tutorial-systemd.html">
+        Mesos-DNS using Systemd</a>
+      </li>
+
+    <hr>
+    </ul>
+<!---
+    <h5>Resources</h5>
+    <ul class="list-unstyled">
+      <li>
+        <a href="/mesos-dns/docs/deployment-design-doc.html">
+          Deployment Design
+        </a>
+      </li>
+    </ul>
+    <hr>
+    <h5>Upgrading</h5>
+    <ul class="list-unstyled">
+      <li>
+        <a href="/mesos-dns/docs/upgrade/06xto070.html">
+          0.6.x to 0.7.0
+        </a>
+      </li>
+    </ul>
+-->
+  </div>
+  <div class="col-sm-9">
+    <h1 id="mesos-dns-configuration-parameters">Mesos-DNS Configuration Parameters</h1>
+
+<p>Mesos-DNS is configured through the parameters in a JSON file. You can point Mesos-DNS to a specific configuration file using the argument <code class="language-plaintext highlighter-rouge">-config=pathto/file.json</code>. If no configuration file is passed as an argument, Mesos-DNS will look for file <code class="language-plaintext highlighter-rouge">config.json</code> in the current directory.</p>
+
+<p>The configuration file should include the following fields:</p>
+
+<div class="language-json highlighter-rouge"><div class="highlight"><pre class="highlight"><code><span class="p">{</span><span class="w">
+  </span><span class="nl">"zk"</span><span class="p">:</span><span class="w"> </span><span class="s2">"zk://10.101.160.15:2181/mesos"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"masters"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"10.101.160.15:5050"</span><span class="p">,</span><span class="w"> </span><span class="s2">"10.101.160.16:5050"</span><span class="p">,</span><span class="w"> </span><span class="s2">"10.101.160.17:5050"</span><span class="p">],</span><span class="w">
+  </span><span class="nl">"mesosCredentials"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"principal"</span><span class="p">:</span><span class="w"> </span><span class="s2">"my-mesos-dns-principal"</span><span class="p">,</span><span class="w">
+    </span><span class="nl">"secret"</span><span class="p">:</span><span class="w"> </span><span class="s2">"super-secret"</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"mesosAuthentication"</span><span class="p">:</span><span class="w"> </span><span class="s2">"basic"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"refreshSeconds"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"ttl"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"domain"</span><span class="p">:</span><span class="w"> </span><span class="s2">"mesos"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"port"</span><span class="p">:</span><span class="w"> </span><span class="mi">53</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"resolvers"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"169.254.169.254"</span><span class="p">],</span><span class="w">
+  </span><span class="nl">"zoneResolvers"</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w">
+    </span><span class="nl">"weave"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"172.17.0.1"</span><span class="p">]</span><span class="w">
+  </span><span class="p">},</span><span class="w">
+  </span><span class="nl">"timeout"</span><span class="p">:</span><span class="w"> </span><span class="mi">5</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"httpon"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"dnson"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"httpport"</span><span class="p">:</span><span class="w"> </span><span class="mi">8123</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"externalon"</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"listener"</span><span class="p">:</span><span class="w"> </span><span class="s2">"10.101.160.16"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"SOAMname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ns1.mesos"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"SOARname"</span><span class="p">:</span><span class="w"> </span><span class="s2">"root.ns1.mesos"</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"SOARefresh"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"SOARetry"</span><span class="p">:</span><span class="w">   </span><span class="mi">600</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"SOAExpire"</span><span class="p">:</span><span class="w">  </span><span class="mi">86400</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"SOAMinttl"</span><span class="p">:</span><span class="w"> </span><span class="mi">60</span><span class="p">,</span><span class="w">
+  </span><span class="nl">"IPSources"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="s2">"netinfo"</span><span class="p">,</span><span class="w"> </span><span class="s2">"mesos"</span><span class="p">,</span><span class="w"> </span><span class="s2">"host"</span><span class="p">]</span><span class="w">
+</span><span class="p">}</span><span class="w">
+</span></code></pre></div></div>
+
+<p><code class="language-plaintext highlighter-rouge">zk</code> is a link to the Zookeeper instances on the Mesos cluster. Its format is <code class="language-plaintext highlighter-rouge">zk://host1:port1,host2:port2/mesos/</code>, where the number of hosts can be one or more. The default port for Zookeeper is <code class="language-plaintext highlighter-rouge">2181</code>. Mesos-DNS will monitor the Zookeeper instances to detect the current leading master.</p>
+
+<p><code class="language-plaintext highlighter-rouge">zkDetectionTimeout</code> defines how long to wait (in seconds) for Zookeeper to report a new leading Mesos master. This timeout is activated on:</p>
+
+<ul>
+  <li>Start up, where it plays the role of the “initial leader detection timeout” via ZK.</li>
+  <li>Mesos cluster changes, where there is no leading master for some period of time.</li>
+  <li>Zookeeper or network failure, when losing connection to the ZK cluster.</li>
+</ul>
+
+<p>If a <em>non-zero</em> timeout is specified and the timeout threshold is exceeded before
+a new leading Mesos master is reported by the ZK-based master detector, the program will exit.</p>
+
+<p>Defaults to <code class="language-plaintext highlighter-rouge">30</code> seconds.</p>
+
+<p><code class="language-plaintext highlighter-rouge">masters</code> is a comma separated list with the IP address and port number for the master(s) in the Mesos cluster. Mesos-DNS will automatically find the leading master at any point in order to retrieve state about running tasks. If there is no leading master or the leading master is not responsive, Mesos-DNS will continue serving DNS requests based on stale information about running tasks. The <code class="language-plaintext highlighter-rouge">masters</code> field is required.</p>
+
+<p>It is sufficient to specify just one of the <code class="language-plaintext highlighter-rouge">zk</code> or <code class="language-plaintext highlighter-rouge">masters</code> field. If both are defined, Mesos-DNS will first attempt to detect the leading master through Zookeeper. If Zookeeper is not responding, it will fall back to using the <code class="language-plaintext highlighter-rouge">masters</code> field. Both <code class="language-plaintext highlighter-rouge">zk</code> and <code class="language-plaintext highlighter-rouge">master</code> fields are static. To update them you need to restart Mesos-DNS. We recommend you use the <code class="language-plaintext highlighter-rouge">zk</code> field since this allows the dynamic addition to Mesos masters.</p>
+
+<p><code class="language-plaintext highlighter-rouge">mesosAuthentication</code> configures the authentication mechanism for talking to the Mesos cluster. Valid values are ‘’, ‘basic’ (see <code class="language-plaintext highlighter-rouge">mesosCredentials</code>), and ‘iam’. Default is ‘’.</p>
+
+<p><code class="language-plaintext highlighter-rouge">mesosCredentials</code> is a dictionary containing a <code class="language-plaintext highlighter-rouge">principal</code> and a <code class="language-plaintext highlighter-rouge">secret</code>, corresponding to a configured authentication principal for the Mesos masters. Starting with Mesos <code class="language-plaintext highlighter-rouge">1.0.0</code>, if the masters have <code class="language-plaintext highlighter-rouge">http_authentication</code> enabled, then Mesos-DNS must authenticate. You must specify <code class="language-plaintext highlighter-rouge">mesosAuthentication</code>: <code class="language-plaintext highlighter-rouge">basic</code> to use this configuration.</p>
+
+<p><code class="language-plaintext highlighter-rouge">refreshSeconds</code> is the frequency at which Mesos-DNS updates DNS records based on information retrieved from the Mesos master. The default value is 60 seconds.</p>
+
+<p><code class="language-plaintext highlighter-rouge">stateTimeoutSeconds</code> is the time that Mesos-DNS will wait for the Mesos master to respond to its request for <code class="language-plaintext highlighter-rouge">state.json</code> in seconds. The default value is 300 seconds.</p>
+
+<p><code class="language-plaintext highlighter-rouge">ttl</code> is the <a href="http://en.wikipedia.org/wiki/Time_to_live#DNS_records">time to live</a> value for DNS records served by Mesos-DNS, in seconds. It allows caching of the DNS record for a period of time in order to reduce DNS request rate. <code class="language-plaintext highlighter-rouge">ttl</code> should be equal or larger than <code class="language-plaintext highlighter-rouge">refreshSeconds</code>. The default value is 60 seconds.</p>
+
+<p><code class="language-plaintext highlighter-rouge">domain</code> is the domain name for the Mesos cluster. The domain name can use characters [a-z, A-Z, 0-9], <code class="language-plaintext highlighter-rouge">-</code> if it is not the first or last character of a domain portion, and <code class="language-plaintext highlighter-rouge">.</code> as a separator of the textual portions of the domain name. We recommend you avoid valid <a href="http://en.wikipedia.org/wiki/List_of_Internet_top-level_domains">top-level domain names</a>. The default value is <code class="language-plaintext highlighter-rouge">mesos</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">port</code> is the port number that Mesos-DNS monitors for incoming DNS requests. Requests can be sent over TCP or UDP. We recommend you use port <code class="language-plaintext highlighter-rouge">53</code> as several applications assume that the DNS server listens to this port. The default value is <code class="language-plaintext highlighter-rouge">53</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">resolvers</code> is a comma separated list with the IP addresses of external DNS servers that Mesos-DNS will contact to resolve any DNS requests outside the <code class="language-plaintext highlighter-rouge">domain</code>. We <strong><em>recommend</em></strong> that you list the nameservers specified in the <code class="language-plaintext highlighter-rouge">/etc/resolv.conf</code> on the server Mesos-DNS is running. Alternatively, you can list <code class="language-plaintext highlighter-rouge">8.8.8.8</code>, which is the <a href="https://developers.google.com/speed/public-dns/">Google public DNS</a> address. The <code class="language-plaintext highlighter-rouge">resolvers</code> field is required.</p>
+
+<p><code class="language-plaintext highlighter-rouge">zoneResolvers</code> is a dictionary of zone-specific external DNS servers, where the key is the matching zone (sans leading / trailing .). You can use this configuration option to route a subset of DNS queries to a specific set of DNS servers. Note, general, catch-all resolvers are still specified with <code class="language-plaintext highlighter-rouge">resolvers</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">timeout</code> is the timeout threshold, in seconds, for connections and requests to external DNS requests. The default value is 5 seconds.</p>
+
+<p><code class="language-plaintext highlighter-rouge">listener</code> is the IP address of Mesos-DNS. In SOA replies, Mesos-DNS identifies hostname <code class="language-plaintext highlighter-rouge">mesos-dns.domain</code> as the primary nameserver for the domain. It uses this IP address in an A or AAAA record for <code class="language-plaintext highlighter-rouge">mesos-dns.domain</code>. The default value is “0.0.0.0”, which instructs Mesos-DNS to create an A record for every IP address associated with a network interface on the server that runs the Mesos-DNS process.</p>
+
+<p><code class="language-plaintext highlighter-rouge">dnson</code> is a boolean field that controls whether Mesos-DNS listens for DNS requests or not. The default value is <code class="language-plaintext highlighter-rouge">true</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">httpon</code> is a boolean field that controls whether Mesos-DNS listens for HTTP requests or not. The default value is <code class="language-plaintext highlighter-rouge">true</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">httpport</code> is the port number that Mesos-DNS monitors for incoming HTTP requests. The default value is <code class="language-plaintext highlighter-rouge">8123</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">externalon</code> is a boolean field that controls whether Mesos-DNS serves requests outside of the Mesos domain. The default value is <code class="language-plaintext highlighter-rouge">true</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">srvRecordDefaultWeight</code> is an int field field that defines the default weight given to SRV records. The default value is <code class="language-plaintext highlighter-rouge">1</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">SOAMname</code> specifies the domain name of the name server that was the original or primary source of data for the configured domain.
+The configured name will always be converted to a FQDN by ensuring it ends with a <code class="language-plaintext highlighter-rouge">.</code>. The default value is <code class="language-plaintext highlighter-rouge">ns1.mesos</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">SOARname</code> specifies the mailbox of the person responsible for the configured domain. The format is <code class="language-plaintext highlighter-rouge">mailbox.domain</code>, using a <code class="language-plaintext highlighter-rouge">.</code> instead of <code class="language-plaintext highlighter-rouge">@</code>. i.e. <code class="language-plaintext highlighter-rouge">root@ns1.mesos</code> becomes <code class="language-plaintext highlighter-rouge">root.ns1.mesos</code>. For details, see the <a href="http://tools.ietf.org/html/rfc1035#page-18">RFC-1035</a>. The default value is <code class="language-plaintext highlighter-rouge">root.ns1.mesos</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">SOARefresh</code> is the REFRESH field in the SOA record for the Mesos domain. For details, see the <a href="http://tools.ietf.org/html/rfc1035#page-18">RFC-1035</a>. The default value is <code class="language-plaintext highlighter-rouge">60</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">SOARetry</code> is the RETRY field in the SOA record for the Mesos domain. For details, see the <a href="http://tools.ietf.org/html/rfc1035#page-18">RFC-1035</a>. The default value is <code class="language-plaintext highlighter-rouge">600</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">SOAExpire</code> is the EXPIRE field in the SOA record for the Mesos domain. For details, see the <a href="http://tools.ietf.org/html/rfc1035#page-18">RFC-1035</a>. The default value is <code class="language-plaintext highlighter-rouge">86400</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">SOAMinttl</code> is the minimum TTL field in the SOA record for the Mesos domain. For details, see the <a href="https://tools.ietf.org/html/rfc2308">RFC-2308</a>. The default value is <code class="language-plaintext highlighter-rouge">60</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">recurseon</code> controls if the DNS replies for names in the Mesos domain will indicate that recursion is available. The default value is <code class="language-plaintext highlighter-rouge">true</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">enforceRFC952</code> will enforce an older, more strict set of rules for DNS labels. For details, see the <a href="https://tools.ietf.org/html/rfc952">RFC-952</a>. The default value is <code class="language-plaintext highlighter-rouge">false</code>.</p>
+
+<p><code class="language-plaintext highlighter-rouge">IPSources</code> defines a fallback list of IP sources for task records,
+sorted by priority. If you use <strong>Docker</strong>, and enable the <code class="language-plaintext highlighter-rouge">netinfo</code> IPSource, it may cause tasks to become unreachable, because after Mesos 0.25, the Docker executor publishes the container’s internal IP in NetworkInfo. The default value is: <code class="language-plaintext highlighter-rouge">["netinfo", "mesos", "host"]</code></p>
+
+<ul>
+  <li><code class="language-plaintext highlighter-rouge">host</code>: Host IP of the Mesos slave where a task is running.</li>
+  <li><code class="language-plaintext highlighter-rouge">mesos</code>: Mesos containerizer IP. <strong>DEPRECATED</strong></li>
+  <li><code class="language-plaintext highlighter-rouge">docker</code>: Docker containerizer IP. <strong>DEPRECATED</strong></li>
+  <li><code class="language-plaintext highlighter-rouge">netinfo</code>: Mesos 0.25 NetworkInfo.</li>
+</ul>
+
+  </div>
+</div>
+
+          <footer>
+            <p class="text-muted">
+              &copy; 2015 <a class="text-muted" href="http://mesosphere.com">Mesosphere, Inc.</a>
+              &copy; 2021 <a class="text-muted" href="https://www.aventer.biz">AVENTER UG (haftungsbeschränkt).</a>
+            </p>
+          </footer>
+        </div>
+      </div>
+    </div>
+    <script src="//cdn.jsdelivr.net/jquery/2.1.1/jquery.min.js"></script>
+    <script src="//cdn.jsdelivr.net/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+  </body>
+</html>
