@@ -9,7 +9,7 @@ import (
 
 	"github.com/AVENTER-UG/mesos-dns/errorutil"
 	"github.com/AVENTER-UG/mesos-dns/httpcli"
-	"github.com/dgrijalva/jwt-go"
+	"github.com/golang-jwt/jwt"
 )
 
 // Register registers a DoerFactory for IAM (JWT-based) authentication
