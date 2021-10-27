@@ -1,3 +1,8 @@
+#dev:
+  Update:
+    Update all go modules
+    Migrate from jwt-go to golang-jwt
+
 2021-08-05: v0.8.1
   Update: 
     jwt-go to the current version. Fix the code to support the new jwt-go.
