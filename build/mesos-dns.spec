@@ -1,5 +1,5 @@
 Name:           mesos-dns
-Version:        v0.8.0
+Version:        %{VERSION}
 Release:        0%{?dist}
 Summary:        DNS Based service discovery for mesos
 Group:          System Environment/Daemons
@@ -9,7 +9,6 @@ URL:            https://www.aventer.biz
 Obsoletes:	mesos-dns < %{version}-%{release}
 Provides:	mesos-dns = %{version}-%{release}
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildArch:	x86_64
 
 %description
 DNS Based service discovery for mesos
@@ -18,8 +17,7 @@ DNS Based service discovery for mesos
 rm -rf $RPM_BUILD_ROOT
 mkdir -p $RPM_BUILD_ROOT/usr/bin/
 mkdir -p $RPM_BUILD_ROOT/etc/mesos-dns/
-cd build
-go build -o $RPM_BUILD_ROOT/usr/bin/mesos-dns ..
+cp /root/mesos-dns/build/mesos-dns $RPM_BUILD_ROOT/usr/bin/mesos-dns
 chmod +x $RPM_BUILD_ROOT/usr/bin/mesos-dns
 
 %files

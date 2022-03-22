@@ -17,8 +17,3 @@ jobs:
         go get -d
         go build .
 
-    - name: Upload artifact
-      uses: actions/upload-artifact@v1.0.0
-      with:
-        name: mesos-m3s
-        path: ./mesos-m3s

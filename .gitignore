@@ -6,3 +6,6 @@ VERSION
 cov.json
 *.swp
 vendor/
+build/*.rpm
+build/target
+build/test_results/
