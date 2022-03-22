@@ -1,5 +1,5 @@
 Name:           mesos-dns
-Version:        v0.8.1
+Version:        %{VERSION}
 Release:        0%{?dist}
 Summary:        DNS Based service discovery for mesos
 Group:          System Environment/Daemons
@@ -9,7 +9,6 @@ URL:            https://www.aventer.biz
 Obsoletes:	mesos-dns < %{version}-%{release}
 Provides:	mesos-dns = %{version}-%{release}
 BuildRoot:      %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
-BuildArch:	x86_64
 
 %description
 DNS Based service discovery for mesos
