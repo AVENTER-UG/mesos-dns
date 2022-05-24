@@ -29,11 +29,11 @@ help:
 
 .DEFAULT_GOAL := all
 
-build:
+build-dns:
 	@echo ">>>> Build binary"
 	@CGO_ENABLED=0 GOOS=linux go build -o build/$(PROJECTNAME) -a -installsuffix cgo -ldflags "-X main.BuildVersion=${BUILDDATE} -X main.GitVersion=${TAG} -extldflags \"-static\"" .
 
-deb: build
+deb: build-dns
 	@echo ">>>> Build DEB"
 	@mkdir -p /tmp/toor/usr/bin
 	@mkdir -p /tmp/toor/etc/$(PROJECTNAME)
@@ -44,7 +44,7 @@ deb: build
 	@cp LICENSE /tmp/toor/license
 	@fpm -t deb -C /tmp/toor/ --config-files etc $(FPM_OPTS) $(CONTENTS)
 
-rpm: build
+rpm: build-dns
 	@echo ">>>> Build RPM"
 	@mkdir -p /tmp/toor/usr/bin
 	@mkdir -p /tmp/toor/etc/$(PROJECTNAME)
