@@ -4,12 +4,15 @@
 PROJECTNAME=mesos-dns
 DESCRIPTION=DNS Based service discovery for mesos 
 UNAME_M=`uname -m`
-TAG=`git describe`
+TAG=$(shell git describe)
 BRANCH=`git rev-parse --abbrev-ref HEAD`
 BUILDDATE=`date -u +%Y-%m-%dT%H:%M:%SZ`
 LICENSE=Apache-2.0 license
+VERSION_TU=$(subst -, ,$(TAG:v%=%))
+BUILD_VERSION = $(word 1,$(VERSION_TU))
+	
 
-FPM_OPTS= -s dir -n $(PROJECTNAME) -v $(TAG) \
+FPM_OPTS= -s dir -n $(PROJECTNAME) -v $(BUILD_VERSION) \
 	--architecture $(UNAME_M) \
 	--url "https://www.aventer.biz" \
 	--license "$(LICENSE)" \
