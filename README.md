@@ -21,7 +21,7 @@ maintaining backwards compatibility with the previous major version.
 
 ## Installing
 
-The official release binaries are available at the [AVENTER UG RPM Server](http://rpm.aventer.biz/CentOS/7/x86_64/).
+The release binaries of these fork are available at the [AVENTER UG RPM Server](http://rpm.aventer.biz/)
 
 ## Building
 
@@ -70,8 +70,8 @@ Contributions are welcome. Please refer to [CONTRIBUTING.md](CONTRIBUTING.md) fo
 
 ## Contact
 
-For any discussion that isn't well suited for Github [issues](https://github.com/AVNETER-UG/mesos-dns/issues),
-please use our public [chat room](https://matrix.to/#/#mesosdns:matrix.aventer.biz?via=matrix.aventer.biz)
+For any discussion that isn't well suited for Github [issues](https://github.com/AVENTER-UG/mesos-dns/issues),
+please use our public [chat room](https://matrix.to/#/#avEnterSupport:matrix.aventer.biz).
 
 ## License
 
