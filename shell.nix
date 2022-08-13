@@ -1,10 +1,15 @@
-{ pkgs ? import <nixpkgs> { } }:
+with import <nixpkgs> {};
 
-with pkgs;
 
-mkShell {
+stdenv.mkDerivation {
+  name = "mesos-dns";
+
   buildInputs = [
     go
   ];
-}
 
+  shellHook = ''
+    cp ./config.json.sample /data/config.json
+    go run .
+  '';
+}

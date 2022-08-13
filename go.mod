@@ -1,21 +1,28 @@
 module github.com/AVENTER-UG/mesos-dns
 
-go 1.14
+go 1.18
 
 require (
-	github.com/emicklei/go-restful v2.15.0+incompatible
-	github.com/gogo/protobuf v1.3.2 // indirect
+	github.com/emicklei/go-restful v2.16.0+incompatible
 	github.com/golang-jwt/jwt v3.2.2+incompatible
 	github.com/golang/glog v1.0.0
-	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/kylelemons/godebug v0.0.0-20150519154555-21cb3784d9bd
 	github.com/mesos/mesos-go v0.0.11
-	github.com/miekg/dns v1.1.43
+	github.com/miekg/dns v1.1.50
+	github.com/tv42/zbase32 v0.0.0-20220222190657-f76a9fc892fa
+)
+
+require (
+	github.com/gogo/protobuf v1.3.2 // indirect
+	github.com/json-iterator/go v1.1.12 // indirect
 	github.com/modern-go/concurrent v0.0.0-20180306012644-bacd9c7ef1dd // indirect
+	github.com/modern-go/reflect2 v1.0.2 // indirect
 	github.com/samuel/go-zookeeper v0.0.0-20201211165307-7117e9ea2414 // indirect
-	github.com/tv42/zbase32 v0.0.0-20190604154422-aacc64a8f915
-	golang.org/x/net v0.0.0-20211020060615-d418f374d309 // indirect
-	golang.org/x/sys v0.0.0-20211025201205-69cdffdb9359 // indirect
+	golang.org/x/mod v0.6.0-dev.0.20220419223038-86c51ed26bb4 // indirect
+	golang.org/x/net v0.0.0-20220812174116-3211cb980234 // indirect
+	golang.org/x/sys v0.0.0-20220811171246-fbc7d0a398ab // indirect
+	golang.org/x/tools v0.1.12 // indirect
+	golang.org/x/xerrors v0.0.0-20220609144429-65e65417b02f // indirect
 )
 
 replace github.com/mesos/mesos-go => github.com/AVENTER-UG/mesos-go v0.0.11
