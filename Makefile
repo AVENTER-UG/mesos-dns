@@ -58,4 +58,4 @@ rpm: build-dns
 	@cp LICENSE /tmp/toor/license
 	@fpm -t rpm -C /tmp/toor/ --config-files etc $(FPM_OPTS) $(CONTENTS)
 
-all: build
+all: build-dns
