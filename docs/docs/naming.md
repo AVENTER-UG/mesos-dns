@@ -121,6 +121,12 @@ The following table illustrates the rules that govern SRV generation:
 |                                         | yes | yes | {task}.framework.domain       | di-port   | container-ip |
 | _{task}._{proto}.framework.slave.domain | n/a | n/a | {task}.framework.slave.domain | host-port | slave-ip |
 
+# PTR records (Experimental, Reverse DNS)
+
+Mesos-DNS can behave as an authorative server for the ip6.arpa and the in-addr.arpa zones, providing reverse DNS resolution in the form of PTR records for non-ambiguous task records.
+
+This is enabled with the `reversednson` configuration option.
+
 ## Other Records
 
 Mesos-DNS generates a few special records:

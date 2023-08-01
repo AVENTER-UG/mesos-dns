@@ -19,6 +19,7 @@ import (
 	"github.com/AVENTER-UG/mesos-dns/records/state"
 	"github.com/AVENTER-UG/mesos-dns/records/state/client"
 	"github.com/AVENTER-UG/mesos-dns/urls"
+	"github.com/miekg/dns"
 	"github.com/tv42/zbase32"
 )
 
@@ -72,6 +73,8 @@ type rrsKind string
 const (
 	// A record types
 	A rrsKind = "A"
+	// PTR record types
+	PTR = "PTR"
 	// AAAA record types
 	AAAA rrsKind = "AAAA"
 	// SRV record types
@@ -82,6 +85,8 @@ func (kind rrsKind) rrs(rg *RecordGenerator) rrs {
 	switch kind {
 	case A:
 		return rg.As
+	case PTR:
+		return rg.PTRs
 	case AAAA:
 		return rg.AAAAs
 	case SRV:
@@ -97,6 +102,7 @@ type RecordGenerator struct {
 	As          rrs
 	AAAAs       rrs
 	SRVs        rrs
+	PTRs        rrs
 	SlaveIPs    map[string][]string
 	EnumData    EnumerationData
 	stateLoader func(masters []string) (state.State, error)
@@ -207,6 +213,7 @@ func (rg *RecordGenerator) InsertState(sj state.State, domain, ns, listener stri
 	rg.SRVs = rrs{}
 	rg.As = rrs{}
 	rg.AAAAs = rrs{}
+	rg.PTRs = rrs{}
 	rg.frameworkRecords(sj, domain, spec)
 	rg.slaveRecords(sj, domain, spec)
 	rg.listenerRecord(listener, ns)
@@ -217,8 +224,9 @@ func (rg *RecordGenerator) InsertState(sj state.State, domain, ns, listener stri
 }
 
 // frameworkRecords injects A, AAAA, and SRV records into the generator store:
-//     frameworkname.domain.                 // resolves to IPs of each framework
-//     _framework._tcp.frameworkname.domain. // resolves to the driver port and IP of each framework
+//
+//	frameworkname.domain.                 // resolves to IPs of each framework
+//	_framework._tcp.frameworkname.domain. // resolves to the driver port and IP of each framework
 func (rg *RecordGenerator) frameworkRecords(sj state.State, domain string, spec labels.Func) {
 	for _, f := range sj.Frameworks {
 		host, port := f.HostPort()
@@ -237,8 +245,9 @@ func (rg *RecordGenerator) frameworkRecords(sj state.State, domain string, spec 
 }
 
 // slaveRecords injects A and SRV records into the generator store:
-//     slave.domain.      // resolves to IPs of all slaves
-//     _slave._tcp.domain. // resolves to the driver port and IP of all slaves
+//
+//	slave.domain.      // resolves to IPs of all slaves
+//	_slave._tcp.domain. // resolves to the driver port and IP of all slaves
 func (rg *RecordGenerator) slaveRecords(sj state.State, domain string, spec labels.Func) {
 	a := "slave." + domain + "."
 	for _, slave := range sj.Slaves {
@@ -262,9 +271,10 @@ func (rg *RecordGenerator) slaveRecords(sj state.State, domain string, spec labe
 }
 
 // masterRecord injects A and SRV records into the generator store:
-//     master.domain.  // resolves to IPs of all masters
-//     masterN.domain. // one IP address for each master
-//     leader.domain.  // one IP address for the leading master
+//
+//	master.domain.  // resolves to IPs of all masters
+//	masterN.domain. // one IP address for each master
+//	leader.domain.  // one IP address for the leading master
 //
 // The current func implementation makes an assumption about the order of masters:
 // it's the order in which you expect the enumerated masterN records to be created.
@@ -438,6 +448,9 @@ func (rg *RecordGenerator) taskContextRecord(ctx context, task state.Task, f sta
 	for _, tIP := range ctx.taskIPs {
 		rg.insertTaskRR(arec+tail, tIP.String(), rrsKindForIP(tIP), enumTask)
 		rg.insertTaskRR(canonical+tail, tIP.String(), rrsKindForIP(tIP), enumTask)
+		// insert PTR records, these are only served when ReverseDnsOn is true,
+		// which sets up a handler for the reveverse DNS zones
+		rg.insertTaskRR(arec+tail, tIP.String(), PTR, enumTask)
 	}
 
 	for _, sIPStr := range ctx.slaveIPs {
@@ -546,6 +559,15 @@ func (rg *RecordGenerator) insertTaskRR(name, host string, kind rrsKind, enumTas
 
 func (rg *RecordGenerator) insertRR(name, host string, kind rrsKind) (added bool) {
 	if rrsByKind := kind.rrs(rg); rrsByKind != nil {
+		if kind == PTR {
+			// Flip the octets, add .in-addr.arpa etc
+			rev, err := dns.ReverseAddr(host)
+			if err != nil {
+				return false
+			}
+			host = name
+			name = rev
+		}
 		if added = rrsByKind.add(name, host); added {
 			logging.VeryVerbose.Println("[" + string(kind) + "]\t" + name + ": " + host)
 		}
