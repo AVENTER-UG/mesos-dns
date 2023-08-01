@@ -1,4 +1,4 @@
-#master:
+2023-08-01: v0.9.0
   Update:
     Update all go modules
     Migrate from jwt-go to golang-jwt
