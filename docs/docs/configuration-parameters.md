@@ -26,6 +26,7 @@ The configuration file should include the following fields:
     "weave": ["172.17.0.1"]
   },
   "timeout": 5,
+  "reversednson": false,   
   "httpon": true,
   "dnson": true,
   "httpport": 8123,
@@ -81,6 +82,10 @@ It is sufficient to specify just one of the `zk` or `masters` field. If both are
 `listener` is the IP address of Mesos-DNS. In SOA replies, Mesos-DNS identifies hostname `mesos-dns.domain` as the primary nameserver for the domain. It uses this IP address in an A or AAAA record for `mesos-dns.domain`. The default value is "0.0.0.0", which instructs Mesos-DNS to create an A record for every IP address associated with a network interface on the server that runs the Mesos-DNS process.
 
 `dnson` is a boolean field that controls whether Mesos-DNS listens for DNS requests or not. The default value is `true`.
+
+`reversednson` is a boolean field that controls whether Mesos-DNS acts as an authoritative nameserver for the in-addr.arpa and ip6.arpa domains, returning unambiguous PTR records to tasks dynamically. Enabling this option will turn
+off the previous default of forwarding reverse DNS lookups, which could break many set-ups. It is recommended only to use this experimental feature if you
+know what you are doing.
 
 `httpon` is a boolean field that controls whether Mesos-DNS listens for HTTP requests or not. The default value is `true`.
 

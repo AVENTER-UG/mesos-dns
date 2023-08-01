@@ -70,8 +70,9 @@ type Config struct {
 	// Value of RecursionAvailable for responses in Mesos domain
 	RecurseOn bool
 	// Enable serving DSN and HTTP requests
-	DNSOn  bool `json:"DnsOn"`
-	HTTPOn bool `json:"HttpOn"`
+	DNSOn        bool `json:"DnsOn"`
+	ReverseDNSOn bool `json:"ReverseDnsOn"`
+	HTTPOn       bool `json:"HttpOn"`
 	// Enable replies for external requests
 	ExternalOn bool
 	// EnforceRFC952 will enforce an older, more strict set of rules for DNS labels
@@ -113,9 +114,9 @@ type Config struct {
 // NewConfig return the default config of the resolver
 func NewConfig() Config {
 	return Config{
-		ZkDetectionTimeout: 30,
-		RefreshSeconds:     60,
-		TTL:                60,
+		ZkDetectionTimeout:     30,
+		RefreshSeconds:         60,
+		TTL:                    60,
 		SRVRecordDefaultWeight: 1,
 		Domain:                 "mesos",
 		Port:                   53,

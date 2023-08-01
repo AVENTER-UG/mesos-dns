@@ -1,7 +1,8 @@
-#dev:
+#master:
   Update:
     Update all go modules
     Migrate from jwt-go to golang-jwt
+    Add support for reverse lookup (thanks to @christian-marie)
 
 2021-08-05: v0.8.1
   Update: 
