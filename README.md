@@ -4,6 +4,9 @@
 [![Chat](https://img.shields.io/static/v1?label=&message=Chat&color=brightgreen)](https://matrix.to/#/#mesos:matrix.aventer.biz?via=matrix.aventer.biz)
 [![Docs](https://img.shields.io/static/v1?label=&message=Docs&color=brightgreen)](https://m3scluster.github.io/mesos-dns/)
 [![GoDoc](https://godoc.org/github.com/AVENTER-UG/mesos-dns?status.svg)](https://godoc.org/github.com/AVENTER-UG/mesos-dns) 
+[![Docker Pulls](https://img.shields.io/docker/pulls/avhost/mesos-dns)](https://hub.docker.com/repository/docker/avhost/mesos-dns/)
+
+
 
 ---
 
