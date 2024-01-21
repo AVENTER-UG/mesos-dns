@@ -93,5 +93,8 @@ seccheck:
 imagecheck:
 	trivy image ${IMAGEFULLNAME}:latest
 
+update-gomod:
+	go mod -u
+
 check: sboom seccheck
 all: check build-docker imagecheck
