@@ -14,6 +14,9 @@ VERSION_TU=$(subst -, ,$(TAG:v%=%))
 BUILD_VERSION = $(word 1,$(VERSION_TU))
 IMAGEFULLNAME=${REPO}/${IMAGENAME}
 LASTCOMMIT=$(shell git log -1 --pretty=short | tail -n 1 | tr -d " " | tr -d "UPDATE:")
+BUILDDATE=$(shell date -u +%Y%m%d)
+BRANCH=$(shell git symbolic-ref --short HEAD | xargs basename)
+BRANCHSHORT=$(shell echo ${BRANCH} | awk -F. '{ print $1"."$2 }')
 
 FPM_OPTS= -s dir -n $(PROJECTNAME) -v $(BUILD_VERSION) \
 	--architecture $(UNAME_M) \
@@ -25,24 +28,10 @@ FPM_OPTS= -s dir -n $(PROJECTNAME) -v $(BUILD_VERSION) \
 
 CONTENTS= usr/bin etc usr/lib
 
-help:
-	    @echo "Makefile arguments:"
-	    @echo ""
-	    @echo "Makefile commands:"
-	    @echo "build"
-	    @echo "all"
-		@echo ${TAG}
-
-.DEFAULT_GOAL := all
 
 ifeq (${BRANCH}, master) 
         BRANCH=latest
-endif
-
-ifneq ($(shell echo $(LASTCOMMIT) | grep -E '^v([0-9]+\.){0,2}(\*|[0-9]+)'),)
-        BRANCH=${LASTCOMMIT}
-else
-        BRANCH=latest
+        BRANCHSHORT=latest
 endif
 
 
@@ -59,6 +48,7 @@ push:
 	@docker buildx create --use --name buildkit
 	@docker buildx build --platform linux/amd64,linux/arm64 --push --build-arg TAG=${TAG} --build-arg BUILDDATE=${BUILDDATE} -t ${IMAGEFULLNAME}:latest .
 	@docker buildx build --platform linux/amd64,linux/arm64 --push --build-arg TAG=${TAG} --build-arg BUILDDATE=${BUILDDATE} -t ${IMAGEFULLNAME}:${BRANCH} .
+#	@docker buildx build --platform linux/amd64,linux/arm64 --push --build-arg TAG=${TAG} --build-arg BUILDDATE=${BUILDDATE} -t ${IMAGEFULLNAME}:${BRANCHSHORT} .
 	@docker buildx rm buildkit
 
 deb: build-dns
