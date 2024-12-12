@@ -46,9 +46,9 @@ build-docker:
 push:
 	@echo ">>>> Publish docker image: " ${BRANCH}
 	@docker buildx create --use --name buildkit
-	@docker buildx build --platform linux/amd64,linux/arm64 --push --build-arg TAG=${TAG} --build-arg BUILDDATE=${BUILDDATE} -t ${IMAGEFULLNAME}:latest .
-	@docker buildx build --platform linux/amd64,linux/arm64 --push --build-arg TAG=${TAG} --build-arg BUILDDATE=${BUILDDATE} -t ${IMAGEFULLNAME}:${BRANCH} .
-#	@docker buildx build --platform linux/amd64,linux/arm64 --push --build-arg TAG=${TAG} --build-arg BUILDDATE=${BUILDDATE} -t ${IMAGEFULLNAME}:${BRANCHSHORT} .
+	@docker buildx build --platform linux/amd64,linux/arm64 --sbom=true --provenance=mode=max --push --build-arg TAG=${TAG} --build-arg BUILDDATE=${BUILDDATE} -t ${IMAGEFULLNAME}:latest .
+	@docker buildx build --platform linux/amd64,linux/arm64 --sbom=true --provenance=mode=max --push --build-arg TAG=${TAG} --build-arg BUILDDATE=${BUILDDATE} -t ${IMAGEFULLNAME}:${BRANCH} .
+#	@docker buildx build --platform linux/amd64,linux/arm64 --sbom=true --provenance=true --push --build-arg TAG=${TAG} --build-arg BUILDDATE=${BUILDDATE} -t ${IMAGEFULLNAME}:${BRANCHSHORT} .
 	@docker buildx rm buildkit
 
 deb: build-dns
