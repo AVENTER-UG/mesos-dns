@@ -16,7 +16,8 @@ IMAGEFULLNAME=${REPO}/${IMAGENAME}
 LASTCOMMIT=$(shell git log -1 --pretty=short | tail -n 1 | tr -d " " | tr -d "UPDATE:")
 BUILDDATE=$(shell date -u +%Y%m%d)
 BRANCH=$(shell git symbolic-ref --short HEAD | xargs basename)
-BRANCHSHORT=$(shell echo ${BRANCH} | awk -F. '{ print $1"."$2 }')
+BRANCHSHORT=$(shell echo ${BRANCH} | awk -F. '{ print $$1"."$$2 }')
+
 
 FPM_OPTS= -s dir -n $(PROJECTNAME) -v $(BUILD_VERSION) \
 	--architecture $(UNAME_M) \
@@ -48,7 +49,7 @@ push:
 	@docker buildx create --use --name buildkit
 	@docker buildx build --platform linux/amd64,linux/arm64 --sbom=true --provenance=mode=max --push --build-arg TAG=${TAG} --build-arg BUILDDATE=${BUILDDATE} -t ${IMAGEFULLNAME}:latest .
 	@docker buildx build --platform linux/amd64,linux/arm64 --sbom=true --provenance=mode=max --push --build-arg TAG=${TAG} --build-arg BUILDDATE=${BUILDDATE} -t ${IMAGEFULLNAME}:${BRANCH} .
-#	@docker buildx build --platform linux/amd64,linux/arm64 --sbom=true --provenance=true --push --build-arg TAG=${TAG} --build-arg BUILDDATE=${BUILDDATE} -t ${IMAGEFULLNAME}:${BRANCHSHORT} .
+	@docker buildx build --platform linux/amd64,linux/arm64 --sbom=true --provenance=mode=max --push --build-arg TAG=${TAG} --build-arg BUILDDATE=${BUILDDATE} -t ${IMAGEFULLNAME}:${BRANCHSHORT} .
 	@docker buildx rm buildkit
 
 deb: build-dns
@@ -84,7 +85,7 @@ imagecheck:
 	trivy image ${IMAGEFULLNAME}:latest
 
 update-gomod:
-	go mod -u
+	go get -u
 
 check: sboom seccheck
 all: check build-docker imagecheck
