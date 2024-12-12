@@ -6,7 +6,9 @@
 [![GoDoc](https://godoc.org/github.com/AVENTER-UG/mesos-dns?status.svg)](https://godoc.org/github.com/AVENTER-UG/mesos-dns) 
 [![Docker Pulls](https://img.shields.io/docker/pulls/avhost/mesos-dns)](https://hub.docker.com/repository/docker/avhost/mesos-dns/)
 
+## Funding
 
+[![](https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif)](https://www.paypal.com/donate/?hosted_button_id=H553XE4QJ9GJ8)
 
 ---
 
