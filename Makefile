@@ -52,7 +52,7 @@ push:
 	@docker buildx build --platform linux/amd64,linux/arm64 --sbom=true --provenance=mode=max --push --build-arg TAG=${TAG} --build-arg BUILDDATE=${BUILDDATE} -t ${IMAGEFULLNAME}:${BRANCHSHORT} .
 	@docker buildx rm buildkit
 
-deb: build-dns
+deb: build-bin
 	@echo ">>>> Build DEB"
 	@mkdir -p /tmp/toor/usr/bin
 	@mkdir -p /tmp/toor/etc/$(PROJECTNAME)
@@ -63,7 +63,7 @@ deb: build-dns
 	@cp LICENSE /tmp/toor/license
 	@fpm -t deb -C /tmp/toor/ --config-files etc $(FPM_OPTS) $(CONTENTS)
 
-rpm: build-dns
+rpm: build-bin
 	@echo ">>>> Build RPM"
 	@mkdir -p /tmp/toor/usr/bin
 	@mkdir -p /tmp/toor/etc/$(PROJECTNAME)
