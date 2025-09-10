@@ -6,7 +6,7 @@ DESCRIPTION=DNS Based service discovery for mesos
 UNAME_M=`uname -m`
 IMAGENAME=${PROJECTNAME}
 REPO=avhost
-TAG=$(shell git describe)
+TAG=v0.9.4
 BRANCH=`git rev-parse --abbrev-ref HEAD`
 BUILDDATE=`date -u +%Y-%m-%dT%H:%M:%SZ`
 LICENSE=Apache-2.0 license
@@ -17,7 +17,8 @@ LASTCOMMIT=$(shell git log -1 --pretty=short | tail -n 1 | tr -d " " | tr -d "UP
 BUILDDATE=$(shell date -u +%Y%m%d)
 BRANCH=$(shell git symbolic-ref --short HEAD | xargs basename)
 BRANCHSHORT=$(shell echo ${BRANCH} | awk -F. '{ print $$1"."$$2 }')
-
+DISTRO   := $(shell lsb_release -is | tr '[:upper:]' '[:lower:]')$(shell lsb_release -rs | tr -d .)
+PKG_REL   = 1.$(DISTRO)
 
 FPM_OPTS= -s dir -n $(PROJECTNAME) -v $(BUILD_VERSION) \
 	--architecture $(UNAME_M) \
@@ -25,7 +26,8 @@ FPM_OPTS= -s dir -n $(PROJECTNAME) -v $(BUILD_VERSION) \
 	--license "$(LICENSE)" \
 	--description "$(DESCRIPTION)" \
 	--maintainer "AVENTER Support <support@aventer.biz>" \
-	--vendor "AVENTER UG (haftungsbeschraenkt)"
+	--vendor "AVENTER UG (haftungsbeschraenkt)" \
+  --iteration $(PKG_REL)
 
 CONTENTS= usr/bin etc usr/lib
 
