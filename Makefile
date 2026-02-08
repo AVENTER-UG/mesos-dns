@@ -91,6 +91,12 @@ update-gomod:
 
 test:
 	go test ./resolver -run TestSortRRsByClientSubnet_A -v
+	go test ./detect -v
+	go test ./errorutil -v
+	go test ./exchanger -v
+	go test ./records -v
+	go test ./util -v
+
 
 check: sboom seccheck
 all: check build-docker imagecheck
