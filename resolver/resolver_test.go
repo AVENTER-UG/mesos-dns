@@ -652,3 +652,32 @@ func genA(n int) []dns.RR {
 	}
 	return records
 }
+
+func TestSortRRsByClientSubnet_A(t *testing.T) {
+	clientIP := net.ParseIP("192.168.10.22")
+
+	rrs := []dns.RR{
+		&dns.A{
+			Hdr: dns.RR_Header{Name: "test.", Rrtype: dns.TypeA, Class: dns.ClassINET},
+			A:   net.ParseIP("192.168.123.113"),
+		},
+		&dns.A{
+			Hdr: dns.RR_Header{Name: "test.", Rrtype: dns.TypeA, Class: dns.ClassINET},
+			A:   net.ParseIP("192.168.10.17"),
+		},
+	}
+
+	sortRRsByClientSubnet(rrs, clientIP)
+
+	a0 := rrs[0].(*dns.A).A.String()
+	a1 := rrs[1].(*dns.A).A.String()
+
+	if a0 != "192.168.10.17" {
+		t.Fatalf("first IP = %s; want 192.168.10.17", a0)
+	}
+
+	if a1 != "192.168.123.113" {
+		t.Fatalf("second IP = %s; want 192.168.123.113", a1)
+	}
+}
+

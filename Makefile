@@ -89,5 +89,8 @@ imagecheck:
 update-gomod:
 	go get -u
 
+test:
+	go test ./resolver -run TestSortRRsByClientSubnet_A -v
+
 check: sboom seccheck
 all: check build-docker imagecheck
