@@ -353,11 +353,32 @@ func rcode(err error) int {
 	}
 }
 
+func extractClientIP(w dns.ResponseWriter, r *dns.Msg) net.IP {
+	// 1. EDNS Client Subnet
+	if opt := r.IsEdns0(); opt != nil {
+		for _, o := range opt.Option {
+			if ecs, ok := o.(*dns.EDNS0_SUBNET); ok {
+				return ecs.Address
+			}
+		}
+	}
+
+	// 2. Fallback: Transport-IP
+	host, _, err := net.SplitHostPort(w.RemoteAddr().String())
+	if err != nil {
+		return nil
+	}
+	return net.ParseIP(host)
+}
+
 // HandleMesos is a resolver request handler that responds to a resource
 // question with resource answer(s)
 // it can handle {A, AAAA, SRV, SOA, NS, ANY}
 func (res *Resolver) HandleMesos(w dns.ResponseWriter, r *dns.Msg) {
 	logging.CurLog.MesosRequests.Inc()
+
+	// get client ip for ip sorting
+  clientIP := extractClientIP(w, r)
 
 	m := &dns.Msg{MsgHdr: dns.MsgHdr{
 		Authoritative:      true,
@@ -372,7 +393,7 @@ func (res *Resolver) HandleMesos(w dns.ResponseWriter, r *dns.Msg) {
 	case dns.TypeSRV:
 		errs.Add(res.handleSRV(rs, name, m, r))
 	case dns.TypeA:
-		errs.Add(res.handleA(rs, name, m))
+		errs.Add(res.handleA(rs, name, m, clientIP))
 	case dns.TypePTR:
 		errs.Add(res.handlePTR(rs, name, m))
 	case dns.TypeAAAA:
@@ -384,7 +405,7 @@ func (res *Resolver) HandleMesos(w dns.ResponseWriter, r *dns.Msg) {
 	case dns.TypeANY:
 		errs.Add(
 			res.handleSRV(rs, name, m, r),
-			res.handleA(rs, name, m),
+			res.handleA(rs, name, m, clientIP),
 			res.handleAAAA(rs, name, m),
 			res.handleSOA(m, r),
 			res.handleNS(m, r),
@@ -466,16 +487,52 @@ func (res *Resolver) handleSRV(rs *records.RecordGenerator, name string, m, r *d
 	return errs
 }
 
-func (res *Resolver) handleA(rs *records.RecordGenerator, name string, m *dns.Msg) error {
+func sortIPsByClientSubnet(ips []net.IP, clientIP net.IP) {
+	if len(ips) <= 1 || clientIP == nil {
+		return
+	}
+
+	var mask net.IPMask
+	if clientIP.To4() != nil {
+		mask = net.CIDRMask(24, 32)
+	} else {
+		mask = net.CIDRMask(64, 128)
+	}
+
+	clientSubnet := clientIP.Mask(mask)
+
+	sort.SliceStable(ips, func(i, j int) bool {
+		iSame := ips[i].Mask(mask).Equal(clientSubnet)
+		jSame := ips[j].Mask(mask).Equal(clientSubnet)
+
+		return iSame && !jSame
+	})
+}
+
+func (res *Resolver) handleA(rs *records.RecordGenerator,	name string ,m *dns.Msg, clientIP net.IP) error {
 	var errs multiError
+	var targets []net.IP
+
 	for a := range rs.As[name] {
-		rr, err := res.formatA(name, a)
+		ip := net.ParseIP(a)
+		if ip == nil || ip.To4() == nil {
+			errs.Add(errors.New("invalid IPv4 target"))
+			continue
+		}
+		targets = append(targets, ip)
+	}
+
+	sortIPsByClientSubnet(targets, clientIP)
+
+	for _, ip := range targets {
+		rr, err := res.formatA(name, ip.String())
 		if err != nil {
 			errs.Add(err)
 			continue
 		}
 		m.Answer = append(m.Answer, rr)
 	}
+
 	return errs
 }
 

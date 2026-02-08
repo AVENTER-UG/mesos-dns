@@ -1,3 +1,7 @@
+2026-02-08:
+  Enhancements:
+    Sort ResolvA ip's. #1
+
 2024-12-12: v0.9.3
   Update:
     Update all go modules

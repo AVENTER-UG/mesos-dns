@@ -89,5 +89,8 @@ imagecheck:
 update-gomod:
 	go get -u
 
+test:
+	./ci.sh
+
 check: sboom seccheck
 all: check build-docker imagecheck

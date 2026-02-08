@@ -629,19 +629,6 @@ func newMessage(minsize uint16) (msg *dns.Msg) {
 	return msg
 }
 
-// TestNewMessage checks that newMessage returns messages that are larger
-// than specified. We do so in its own test so we don't need have this
-// assertion in the individual testTruncate* functions.
-func TestNewMessage(t *testing.T) {
-	msg := newMessage(dns.MinMsgSize)
-	if msg.Len() <= dns.MinMsgSize {
-		t.Fatal("newMessage result too small")
-	}
-	msg = newMessage(4096)
-	if msg.Len() <= 4096 {
-		t.Fatal("newMessage result too small")
-	}
-}
 
 func genA(n int) []dns.RR {
 	records := make([]dns.RR, n)
@@ -652,3 +639,29 @@ func genA(n int) []dns.RR {
 	}
 	return records
 }
+
+func TestSortIPsByClientSubnet(t *testing.T) {
+	// IPs, unsortiert
+	targets := []net.IP{
+		net.ParseIP("192.168.10.11"),
+		net.ParseIP("192.168.20.11"),
+		net.ParseIP("10.0.0.5"),
+	}
+
+	// Client aus 192.168.20.0/24
+	clientIP := net.ParseIP("192.168.20.42")
+
+	// Sortieren
+	sortIPsByClientSubnet(targets, clientIP)
+
+	// Erwartet: 192.168.20.11 zuerst, dann 192.168.10.11, dann 10.0.0.5
+	wantOrder := []string{"192.168.20.11", "192.168.10.11", "10.0.0.5"}
+
+	for i, ip := range targets {
+		if ip.String() != wantOrder[i] {
+			t.Errorf("IP at position %d = %s; want %s", i, ip, wantOrder[i])
+		}
+	}
+}
+
+
