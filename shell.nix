@@ -10,6 +10,5 @@ stdenv.mkDerivation {
 
   shellHook = ''
     cp ./config.json.sample /data/config.json
-    go run .
   '';
 }

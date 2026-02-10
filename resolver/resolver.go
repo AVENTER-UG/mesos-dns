@@ -317,6 +317,25 @@ func (res *Resolver) formatNS(dom string) *dns.NS {
 	}
 }
 
+func extractClientIP(w dns.ResponseWriter, r *dns.Msg) net.IP {
+	// 1. EDNS Client Subnet
+	if opt := r.IsEdns0(); opt != nil {
+		for _, o := range opt.Option {
+			if ecs, ok := o.(*dns.EDNS0_SUBNET); ok {
+				return ecs.Address
+			}
+		}
+	}
+
+	// 2. Fallback: Transport-IP
+	host, _, err := net.SplitHostPort(w.RemoteAddr().String())
+	if err != nil {
+		return nil
+	}
+	return net.ParseIP(host)
+}
+
+
 // reorders answers for very basic load balancing
 func shuffleAnswers(rng *rand.Rand, answers []dns.RR) []dns.RR {
 	n := len(answers)
@@ -353,11 +372,16 @@ func rcode(err error) int {
 	}
 }
 
+
+
 // HandleMesos is a resolver request handler that responds to a resource
 // question with resource answer(s)
 // it can handle {A, AAAA, SRV, SOA, NS, ANY}
 func (res *Resolver) HandleMesos(w dns.ResponseWriter, r *dns.Msg) {
 	logging.CurLog.MesosRequests.Inc()
+
+	// get client ip for ip sorting
+  clientIP := extractClientIP(w, r)
 
 	m := &dns.Msg{MsgHdr: dns.MsgHdr{
 		Authoritative:      true,
@@ -395,6 +419,7 @@ func (res *Resolver) HandleMesos(w dns.ResponseWriter, r *dns.Msg) {
 		errs.Add(res.handleEmpty(rs, name, m, r))
 	} else {
 		shuffleAnswers(res.rng, m.Answer)
+		sortRRsByClientSubnet(m.Answer, clientIP)
 		logging.CurLog.MesosSuccess.Inc()
 	}
 
@@ -405,6 +430,39 @@ func (res *Resolver) HandleMesos(w dns.ResponseWriter, r *dns.Msg) {
 
 	reply(w, m, res.config.SetTruncateBit)
 }
+
+func sortRRsByClientSubnet(rrs []dns.RR, clientIP net.IP) {
+	if len(rrs) <= 1 || clientIP == nil {
+		return
+	}
+
+	var mask net.IPMask
+	if clientIP.To4() != nil {
+		mask = net.CIDRMask(24, 32)  // IPv4
+	} else {
+		mask = net.CIDRMask(64, 128) // IPv6
+	}
+	clientSubnet := clientIP.Mask(mask)
+
+	sort.SliceStable(rrs, func(i, j int) bool {
+		iSame := rrInClientSubnet(rrs[i], clientSubnet, mask)
+		jSame := rrInClientSubnet(rrs[j], clientSubnet, mask)
+
+		return iSame && !jSame
+	})
+}
+
+func rrInClientSubnet(rr dns.RR, clientSubnet net.IP, mask net.IPMask) bool {
+	switch v := rr.(type) {
+	case *dns.A:
+		return v.A.Mask(mask).Equal(clientSubnet)
+	case *dns.AAAA:
+		return v.AAAA.Mask(mask).Equal(clientSubnet)
+	default:
+		return false
+	}
+}
+
 
 func (res *Resolver) handlePTR(rs *records.RecordGenerator, name string, m *dns.Msg) error {
 	var errs multiError
