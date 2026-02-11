@@ -419,7 +419,9 @@ func (res *Resolver) HandleMesos(w dns.ResponseWriter, r *dns.Msg) {
 		errs.Add(res.handleEmpty(rs, name, m, r))
 	} else {
 		shuffleAnswers(res.rng, m.Answer)
-		sortRRsByClientSubnet(m.Answer, clientIP)
+		if res.config.ResolvSubnetFirst {
+			sortRRsByClientSubnet(m.Answer, clientIP)
+		}
 		logging.CurLog.MesosSuccess.Inc()
 	}
 

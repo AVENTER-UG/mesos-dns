@@ -102,6 +102,9 @@ type Config struct {
 	// IAM Config File
 	IAMConfigFile string
 
+	// Client matched subnet first homed https://github.com/m3scluster/mesos-dns/issues/1
+	ResolvSubnetFirst bool
+
 	caPool *x509.CertPool
 
 	cert tls.Certificate
@@ -140,6 +143,7 @@ func NewConfig() Config {
 		RecurseOn:              true,
 		IPSources:              []string{"netinfo", "mesos", "host"},
 		EnumerationOn:          true,
+		ResolvSubnetFirst:      false,
 		MesosAuthentication:    httpcli.AuthNone,
 	}
 }

@@ -1,6 +1,9 @@
 # CHANGELOG
 
-## 2026‑02‑19 : v0.10.0 
+## 2026‑02‑11 : v0.10.1 
+- CHANGE: [dns] "Subnet first" is disabled by default. Enable it with "ResolvSubnetFirst: true" in the config.json.
+
+## 2026‑02‑10 : v0.10.0 
 - ADD: [dns] If there are multiple IP addresses, output the IP address that is in the same subnet as the requesting IP address first.
 
 ## 2024‑12‑12 : v0.9.3 

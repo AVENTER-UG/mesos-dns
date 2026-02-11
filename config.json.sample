@@ -24,5 +24,6 @@
   "srvRecordDefaultWeight": 1,
   "IPSources": ["mesos", "host"],
   "EnforceRFC952": false,
-  "EnumerationOn": true
+  "EnumerationOn": true,
+	"ResolvSubnetFirst": false
 }
